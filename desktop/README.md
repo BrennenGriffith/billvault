@@ -7,7 +7,7 @@ A native JavaFX edition of BillVault. Runs entirely on your computer with an emb
 Use the assets under the **Desktop** release at [GitHub Releases](https://github.com/BrennenGriffith/billvault/releases). Download only packages actually listed there; source archives are not runnable desktop packages.
 
 - **Windows x64:** download the portable ZIP, extract the entire folder, and run `BillVaultDesktop.exe`. Keep its `app` and `runtime` folders together. An `.exe` installer may also be supplied; it installs for your Windows user.
-- **Linux x86_64:** when an AppImage is listed, download it, run `chmod +x BillVaultDesktop-*.AppImage`, then launch it. A graphical desktop with GTK 3 and compatible system libraries is required. On distributions without FUSE support, use `./BillVaultDesktop-*.AppImage --appimage-extract` and run `squashfs-root/AppRun`.
+- **Linux x86_64:** download the AppImage, run `chmod +x BillVaultDesktop-*.AppImage`, then launch it. A graphical desktop with GTK 3 and compatible system libraries is required. On distributions without FUSE support, use `./BillVaultDesktop-*.AppImage --appimage-extract` and run `squashfs-root/AppRun`. The 0.1.0 package passed a packaged-app smoke test on Ubuntu 22.04 under Xvfb; other distributions have not been individually verified.
 - Packages bundle the Java runtime and JavaFX. Windows downloads are unsigned; operating systems may show an unknown-publisher warning. No automatic updater is included.
 
 Compare the download's SHA256 with its adjacent `.sha256` asset (`Get-FileHash` on Windows, `sha256sum` on Linux). Checksums detect corruption; they are not a code signature.
@@ -49,7 +49,7 @@ chmod +x mvnw scripts/build-desktop-linux.sh
 APPIMAGETOOL=/absolute/path/to/appimagetool ./scripts/build-desktop-linux.sh 0.1.0
 ```
 
-Build packages on their target OS. Windows jpackage cannot produce a Linux runtime. Output is under `target/desktop-release/`, excluded from Git. See `docs/ci/desktop-release.yml` for the release build template and its activation instructions. Never package databases, backups, `.env`, or credentials as application resources.
+Build packages on their target OS. Windows jpackage cannot produce a Linux runtime. Output is under `target/desktop-release/`, excluded from Git. The [Linux desktop release workflow](https://github.com/BrennenGriffith/billvault/actions/workflows/desktop-release.yml) is active in this repository; `docs/ci/desktop-release.yml` is the matching template for forks. It checks out the existing desktop release tag and adds an AppImage only after tests and a packaged-app smoke test pass. Never package databases, backups, `.env`, or credentials as application resources.
 
 ## Desktop architecture
 

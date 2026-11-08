@@ -20,6 +20,9 @@ Docker checks use only disposable CI data. Do not substitute your real database 
 
 ## Desktop Linux releases
 
+The desktop Linux workflow is active in this repository under `.github/workflows/desktop-release.yml`.
+The original web/Docker verification template above remains opt-in. Forks can activate the desktop template as follows.
+
 `desktop-release.yml` builds the JavaFX edition on Ubuntu 22.04 with Temurin 25, runs the shared/desktop
 tests, packages an x86_64 AppImage, and launches that package under Xvfb against a temporary database.
 Only after that succeeds does it upload the AppImage and checksum to `desktop-v<version>` in Releases.

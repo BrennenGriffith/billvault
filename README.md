@@ -50,11 +50,16 @@ Prefer a native application? **[BillVault Desktop downloads](https://github.com/
 are published separately from the web edition. The JavaFX client runs locally with an embedded database;
 no hosting, Docker, browser, or separately installed Java is needed for packaged downloads.
 
-Windows x64 packages include an executable and bundled runtime. Linux x86_64 AppImages are built on Linux;
-check the release's actual assets for platform availability. See the **[desktop guide](desktop/README.md)**
+| Platform | Desktop 0.1.0 preview download |
+| --- | --- |
+| Windows x64 | [Installer EXE](https://github.com/BrennenGriffith/billvault/releases/download/desktop-v0.1.0/BillVaultDesktop-0.1.0.exe) · [Portable ZIP](https://github.com/BrennenGriffith/billvault/releases/download/desktop-v0.1.0/BillVaultDesktop-0.1.0-windows-x64.zip) |
+| Linux x86_64 | [AppImage](https://github.com/BrennenGriffith/billvault/releases/download/desktop-v0.1.0/BillVaultDesktop-0.1.0-x86_64.AppImage) |
+
+Both include a Java runtime; SHA256 files accompany the downloads in Releases. See the **[desktop guide](desktop/README.md)**
 for installation, data locations, backup instructions, source builds, and platform limitations.
 The desktop database is separate from the web database; there is no automatic synchronization.
 Desktop access uses your operating-system account, with no application password or saved administrator credential.
+Windows packages are unsigned. This is an initial preview release; back up your records before upgrades.
 
 ### Option A — Personal use on Windows, without Docker
 
