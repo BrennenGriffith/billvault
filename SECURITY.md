@@ -12,7 +12,9 @@ personal project, without a guaranteed response SLA or security audit.
 ## Operating safely
 - Keep real records, .env files, backups, credentials and local database files outside Git. Ignore rules are defense in depth;
   inspect `git diff --cached` before pushing.
-- Use a unique password and keep your Windows account secure. The personal startup script decrypts credentials only for the app process.
+- Use a unique password and keep your Windows account secure. The personal startup script prompts each run and does not save a credential file.
+  Credentials exist in process memory/environment while running. Docker also retains container environment values locally;
+  see [Docker credential handling](docs/DOCKER.md#credential-handling).
 - Stop the application before H2 file backups; verify a restored copy before relying on a backup.
 - The provided HTTP local configuration is not an Internet deployment. Use TLS, Secure cookies, secrets handling,
   backup automation and abuse protection before public hosting.

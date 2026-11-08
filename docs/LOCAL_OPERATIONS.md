@@ -9,14 +9,13 @@ Install JDK 25 and Node.js 24, clone the repository, and open PowerShell in the 
 
 ```powershell
 .\scripts\build.ps1
-.\scripts\setup-personal.ps1
 .\scripts\start-personal.ps1
 ```
 
 Build performs npm install/tests/build and Maven clean verify, then stores a versioned runnable JAR under
-`.local/releases/`. Choose a unique administrator password during setup. Windows DPAPI protects the saved
-credential in `.local/admin.credential.xml`; only this Windows user on this computer can decrypt it.
-Do not commit the XML. If PowerShell blocks scripts, review your organization's policy before changing it;
+`.local/releases/`. Each startup prompts for an administrator password; no credential file is created.
+The password is supplied to the Java child process in memory and the shell environment is restored on exit.
+Use a unique password with at least 12 characters and at most 72 UTF-8 bytes. If PowerShell blocks scripts, review your organization's policy before changing it;
 you can also run the documented Java/Maven commands manually.
 
 Open http://127.0.0.1:8080. The terminal stays open while the app runs. Press Ctrl+C and wait for shutdown
@@ -36,9 +35,9 @@ protect against disk failure; copy verified backups to another trusted device.
 ```
 
 No Node server or build is needed until you change the application. Browser sessions expire after inactivity
-and are invalidated when the backend restarts. Your saved password is not automatically changed by updates.
-Use `scripts/change-personal-password.ps1`, then restart, when you want to replace it.
-If you move to another Windows user/PC, run credential setup again; DPAPI ciphertext is not portable.
+and are invalidated when the backend restarts. Enter the same password each time, or choose a new one
+at the next startup to change it. Authentication is configured at startup; no administrator password is stored in H2.
+Remember your password or manage it in your own password manager. BillVault does not save it for you.
 
 ## Backup
 

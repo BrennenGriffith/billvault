@@ -2,6 +2,9 @@ param([switch]$Postgres)
 $ErrorActionPreference = 'Stop'
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 Set-Location -LiteralPath $projectRoot
+$originalPassword = $env:ADMIN_PASSWORD
+$securePassword = $null
+try {
 if (-not $env:ADMIN_PASSWORD) {
     $securePassword = Read-Host 'Choose your administrator password (at least 12 characters)' -AsSecureString
     $env:ADMIN_PASSWORD = [System.Net.NetworkCredential]::new('', $securePassword).Password
@@ -13,4 +16,8 @@ if ($Postgres) {
 } else {
     & .\mvnw.cmd spring-boot:run '-Dspring-boot.run.profiles=local'
 }
-exit $LASTEXITCODE
+if ($LASTEXITCODE -ne 0) { throw 'Development backend exited unsuccessfully.' }
+} finally {
+    $env:ADMIN_PASSWORD = $originalPassword
+    if ($securePassword) { $securePassword.Dispose() }
+}

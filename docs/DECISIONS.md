@@ -55,7 +55,8 @@ single-instance; multiple backend replicas need a distributed lock/outbox and re
 ## Local personal packaging and credentials
 The built React assets are included in the executable Java JAR, so daily use needs one local Java process.
 The personal profile reuses the existing H2 data directory, forces loopback binding, and disables Swagger.
-Windows setup stores a PSCredential using DPAPI; startup temporarily supplies it to the Java child process.
+Personal startup prompts each run and temporarily supplies the password to the Java child process.
+No credential file is written; the original shell environment is restored when Java exits.
 Passwords longer than BCrypt's 72-byte input limit and unchanged example passwords are rejected.
 Fonts are bundled locally instead of fetching Google Fonts. The served application sets a same-origin CSP.
 Offline backups acquire an exclusive H2 file handle and include a SHA256 checksum; restore checks create a separate copy.

@@ -36,8 +36,8 @@ All totals come from API records; empty state is a supported first-run experienc
 
 ## Deployment
 The daily `personal` profile serves the built React files from the Java JAR on loopback, disables API docs,
-and reuses the selected local H2 data directory. Windows helpers keep a DPAPI-protected administrator
-credential and publish verified builds to versioned `.local/releases/` folders. Offline backup/restore tools
+and reuses the selected local H2 data directory. Personal startup prompts each run without saving credentials;
+the build helper publishes verified builds to versioned `.local/releases/` folders. Offline backup/restore tools
 operate on separate files and refuse a live H2 copy or overwriting an existing restored database.
 
 Vite proxies requests in development. In Docker, nginx serves the static React build and proxies requests

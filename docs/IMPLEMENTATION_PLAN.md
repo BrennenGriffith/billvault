@@ -66,3 +66,7 @@ No cloud deployment or payment processing is included.
 - The real personal startup helper successfully decrypted an isolated Windows DPAPI credential and opened a restored fictional database containing 8 expenses and 42 payments.
 - Public screenshots were captured from the isolated demo. Personal data, credentials, JARs, dependencies, logs and local artifacts were checked out of the staged source.
 - Docker runtime verification is still pending because this PC has no Docker installation; the opt-in GitHub workflow provides that check. Cloud deployment remains deferred.
+
+## Credential handling update
+
+Personal startup now prompts each run without saving credentials. The earlier DPAPI helpers and disposable credential test fixture were removed. Docker usage and its local metadata limitations are documented in DOCKER.md.

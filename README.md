@@ -53,17 +53,16 @@ Git and PowerShell are used by these instructions.
 git clone https://github.com/BrennenGriffith/billvault.git
 cd billvault
 .\scripts\build.ps1
-.\scripts\setup-personal.ps1
 .\scripts\start-personal.ps1
 ```
 
-Setup asks you to choose an administrator password. The username defaults to `admin`.
+Each startup prompts for an administrator password without saving a credential file. The username defaults to `admin`.
 Open **http://127.0.0.1:8080**. React and the REST API are served together from one executable JAR.
 For future starts, run only `scripts/start-personal.ps1`. Stop with Ctrl+C before backups or upgrades.
 If a development backend already uses port 8080, stop it first; do not run two processes against the same database.
 
 Records live in `data/billvault.mv.db`, a persistent H2 database. The personal profile reuses the original local data path.
-The saved administrator credential uses Windows DPAPI and is excluded from Git. Fonts are included in the application;
+The password is supplied to Java in memory; the shell environment is restored on exit. Fonts are included in the application;
 the running app does not load Google Fonts. OpenAPI is disabled in personal mode.
 
 **Read the [local operations guide](docs/LOCAL_OPERATIONS.md) for password changes, updates, backups, and restore checks.**
@@ -73,15 +72,14 @@ H2 is the small single-user local option. PostgreSQL is available through Compos
 
 You need Docker Engine/Desktop with Compose. This is suitable for Windows, Linux, or a home server.
 
-```sh
+```powershell
 git clone https://github.com/BrennenGriffith/billvault.git
 cd billvault
-cp .env.example .env
-# Edit .env: replace DB_PASSWORD and ADMIN_PASSWORD with unique passwords.
-docker compose up --build -d
+.\scripts\start-docker.ps1
 ```
 
-In PowerShell, use `Copy-Item .env.example .env` instead of `cp` if preferred.
+Follow the **[Docker tutorial](docs/DOCKER.md)** for installation, Linux/macOS commands, credentials, updates, and backups.
+The helper writes no credential file. Docker retains environment values in local container metadata; see the tutorial.
 Open **http://127.0.0.1:8088**. The frontend reverse proxy is published on loopback; the backend and PostgreSQL stay internal.
 PostgreSQL persists in a named volume. `docker compose down` stops services without removing that volume.
 Do not use `down -v` for a real installation unless you intentionally want to erase its database.
@@ -106,7 +104,7 @@ java -Xms128m -Xmx512m -jar target/billvault-0.0.1-SNAPSHOT.jar --spring.profile
 ```
 
 This uses local H2 and loopback HTTP. Protect the data directory with your operating system's file permissions.
-The DPAPI credential helper is Windows-specific; Linux/macOS operators manage their own environment/secret storage.
+Keep passwords out of shell history and source files. Supply the password again when the application restarts.
 
 ### Internet hosting later
 
@@ -140,7 +138,7 @@ Run the API and Vite with live reload in separate terminals:
 
 Open http://127.0.0.1:5173. Vite proxies API requests to the backend on port 8080.
 Spring Boot does not automatically read `.env`; Docker Compose does. Host-run processes use shell environment variables.
-The personal script reads the DPAPI credential instead of `.env`.
+The personal script prompts on each start and does not save credentials.
 
 Verification:
 
@@ -179,6 +177,7 @@ Money is calculated in BigDecimal; currencies are reported separately rather tha
 | --- | --- |
 | [Architecture](docs/ARCHITECTURE.md) | Components and request flow |
 | [API](docs/API.md) | Endpoints, DTOs and status codes |
+| [Docker tutorial](docs/DOCKER.md) | Install, start, update, troubleshoot and back up containers |
 | [Database](docs/DATABASE.md) | Schema, migrations and PostgreSQL backups |
 | [Local operations](docs/LOCAL_OPERATIONS.md) | Daily use, updates, password changes and recovery |
 | [Decisions](docs/DECISIONS.md) | Billing rules and technical tradeoffs |
