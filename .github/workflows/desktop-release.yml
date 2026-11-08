@@ -1,0 +1,67 @@
+# Copy to .github/workflows/desktop-release.yml to activate.
+name: Desktop Linux release
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Desktop version (x.y.z)
+        required: true
+        default: '0.1.0'
+permissions:
+  contents: read
+jobs:
+  linux:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    env:
+      VERSION: ${{ inputs.version }}
+      APPIMAGE_EXTRACT_AND_RUN: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: desktop-v${{ inputs.version }}
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - name: Install Linux desktop and packaging libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-0 libasound2 libxtst6 libxi6 libxrender1 xvfb squashfs-tools desktop-file-utils file
+      - name: Prepare pinned AppImage tool
+        run: |
+          curl --fail --location --retry 3 https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage -o "$RUNNER_TEMP/appimagetool"
+          echo "e8c1169c4af66c3184d7ee110713d4be04befe671fa358e2c1591ee840553b03  $RUNNER_TEMP/appimagetool" | sha256sum --check
+          chmod +x "$RUNNER_TEMP/appimagetool"
+      - name: Verify and package
+        run: |
+          chmod +x mvnw scripts/build-desktop-linux.sh
+          APPIMAGETOOL="$RUNNER_TEMP/appimagetool" ./scripts/build-desktop-linux.sh "$VERSION"
+      - name: Smoke-test the packaged JavaFX application
+        run: |
+          timeout 90s xvfb-run -a "target/desktop-release/BillVaultDesktop-$VERSION-x86_64.AppImage" --data-dir="$RUNNER_TEMP/desktop-smoke" --smoke-test=true
+          test -s "$RUNNER_TEMP/desktop-smoke/billvault.mv.db"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: desktop-linux
+          path: target/desktop-release/*
+          if-no-files-found: error
+  publish:
+    needs: linux
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ inputs.version }}
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: desktop-linux
+          path: packages
+      - name: Publish tested AppImage alongside desktop downloads
+        run: |
+          [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          tag="desktop-v$VERSION"
+          gh release upload "$tag" packages/*
