@@ -29,6 +29,7 @@
 	</scm>
 	<properties>
 		<java.version>25</java.version>
+        <billvault.frontend.directory>frontend/dist</billvault.frontend.directory>
 	</properties>
 	<dependencies>
         <dependency><groupId>org.springdoc</groupId><artifactId>springdoc-openapi-starter-webmvc-ui</artifactId><version>3.2.0</version></dependency>
@@ -60,7 +61,7 @@
 	<build>
         <resources>
             <resource><directory>src/main/resources</directory></resource>
-            <resource><directory>frontend/dist</directory><targetPath>static</targetPath></resource>
+            <resource><directory>${billvault.frontend.directory}</directory><targetPath>static</targetPath></resource>
         </resources>
 		<plugins>
 			<plugin>
@@ -69,5 +70,32 @@
 			</plugin>
 		</plugins>
 	</build>
+    <profiles>
+        <profile>
+            <id>desktop</id>
+            <properties><spring-boot.repackage.skip>true</spring-boot.repackage.skip><javafx.version>25.0.1</javafx.version><billvault.frontend.directory>desktop/no-web-assets</billvault.frontend.directory></properties>
+            <dependencies>
+                <dependency><groupId>org.openjfx</groupId><artifactId>javafx-controls</artifactId><version>${javafx.version}</version></dependency>
+            </dependencies>
+            <build>
+                <finalName>billvault-desktop</finalName>
+                <plugins>
+                    <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><configuration><excludes><exclude>**/PersonalProfileTests.java</exclude></excludes></configuration></plugin>
+                    <plugin><groupId>org.codehaus.mojo</groupId><artifactId>build-helper-maven-plugin</artifactId><version>3.6.1</version>
+                        <executions>
+                            <execution><id>desktop-source</id><phase>generate-sources</phase><goals><goal>add-source</goal><goal>add-resource</goal></goals><configuration><sources><source>desktop/src/main/java</source></sources><resources><resource><directory>desktop/src/main/resources</directory></resource></resources></configuration></execution>
+                            <execution><id>desktop-tests</id><phase>generate-test-sources</phase><goals><goal>add-test-source</goal></goals><configuration><sources><source>desktop/src/test/java</source></sources></configuration></execution>
+                        </executions>
+                    </plugin>
+                    <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-jar-plugin</artifactId>
+                        <configuration><outputDirectory>${project.build.directory}/desktop-input</outputDirectory><archive><manifest><mainClass>com.brennensubs.billvault.desktop.DesktopLauncher</mainClass><addClasspath>true</addClasspath><classpathPrefix>lib/</classpathPrefix></manifest></archive></configuration>
+                    </plugin>
+                    <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-dependency-plugin</artifactId>
+                        <executions><execution><id>desktop-libraries</id><phase>package</phase><goals><goal>copy-dependencies</goal></goals><configuration><includeScope>runtime</includeScope><outputDirectory>${project.build.directory}/desktop-input/lib</outputDirectory></configuration></execution></executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

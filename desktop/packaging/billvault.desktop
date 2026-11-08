@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=BillVault Desktop
+Comment=Local bills and subscriptions tracker
+Exec=BillVaultDesktop
+Icon=billvault
+Categories=Office;Finance;
+Terminal=false

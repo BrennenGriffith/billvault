@@ -44,6 +44,18 @@ one administrator; it is not an audited financial service or a multi-user SaaS p
 
 ## Self-host it
 
+### Standalone desktop — download and open
+
+Prefer a native application? **[BillVault Desktop downloads](https://github.com/BrennenGriffith/billvault/releases)**
+are published separately from the web edition. The JavaFX client runs locally with an embedded database;
+no hosting, Docker, browser, or separately installed Java is needed for packaged downloads.
+
+Windows x64 packages include an executable and bundled runtime. Linux x86_64 AppImages are built on Linux;
+check the release's actual assets for platform availability. See the **[desktop guide](desktop/README.md)**
+for installation, data locations, backup instructions, source builds, and platform limitations.
+The desktop database is separate from the web database; there is no automatic synchronization.
+Desktop access uses your operating-system account, with no application password or saved administrator credential.
+
 ### Option A — Personal use on Windows, without Docker
 
 You need **JDK 25** and **Node.js 24** for the initial build. Only Java is needed to run the built application each day.

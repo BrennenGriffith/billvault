@@ -1,6 +1,15 @@
 # Security policy
 
-BillVault currently targets a single administrator on a private, local installation. The personal startup profile
+## Desktop edition
+
+The native JavaFX edition opens no web server and has no application login. It relies on the local operating-system
+account to protect its separate database directory. H2 storage, CSV exports, and backups are not encrypted.
+Packaged downloads contain no administrator credentials or personal database. Keep your OS account private and
+back up before updates. Windows packages are currently unsigned; checksums are provided for integrity.
+
+## Web edition
+
+The web edition targets a single administrator on a private, local installation. The personal startup profile
 binds to 127.0.0.1 and disables OpenAPI/Swagger. Public source code does not mean your financial records should be public.
 
 ## Reporting a vulnerability

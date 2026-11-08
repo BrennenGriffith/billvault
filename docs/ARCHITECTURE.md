@@ -1,5 +1,17 @@
 # Architecture
 
+## Native desktop edition
+
+The optional Maven `desktop` profile adds `desktop/src/main/java` and JavaFX dependencies. `DesktopStore`
+starts a narrowly configured Spring context with `WebApplicationType.NONE`, shared services/repositories,
+Flyway, and a separate H2 file in the OS user-data directory. It does not scan the web security/controllers
+or start an HTTP listener. JavaFX invokes storage work on a single background executor and updates controls
+on the JavaFX thread. DTO validation precedes mutations; shared transactions, row locks, optimistic versions,
+and duplicate occurrence constraints apply to both editions. A file lock prevents multiple desktop writers.
+There is no cloud synchronization, application login, or desktop database encryption. See [desktop guide](../desktop/README.md).
+
+## Web edition
+
 ```text
 React components → frontend/src/api.ts → same-origin /api
   → Spring Security filter chain (session + CSRF)

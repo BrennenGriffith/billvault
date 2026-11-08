@@ -1,0 +1,12 @@
+.root { -fx-font-family: "Segoe UI", "DejaVu Sans", sans-serif; -fx-font-size: 13px; -fx-base: #f7f8fc; -fx-background: #f7f8fc; -fx-accent: #7161ef; -fx-focus-color: #7161ef; }
+.brand { -fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #302854; }
+.muted { -fx-font-size: 11px; -fx-text-fill: #75788d; }
+.summary { -fx-font-size: 18px; -fx-text-fill: #302854; }
+.button { -fx-background-radius: 6; -fx-padding: 8 12; -fx-cursor: hand; }
+.tab-pane .tab-header-area { -fx-padding: 0 20 0 20; }
+.tab { -fx-padding: 10 15; }
+.table-view { -fx-background-color: white; -fx-border-color: #e5e6ef; }
+.table-row-cell { -fx-cell-size: 40px; }
+.table-row-cell:selected { -fx-background-color: #7161ef; }
+.text-field, .combo-box, .date-picker { -fx-pref-height: 34px; }
+.scroll-pane { -fx-fit-to-width: true; -fx-background-color: transparent; }
