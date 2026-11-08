@@ -266,6 +266,10 @@ Money is calculated in BigDecimal; currencies are reported separately rather tha
 
 ## Current limits and roadmap
 
+**Android is planned, not released.** See the [Android app and launch plan](docs/ANDROID_PLAN.md):
+a free app with local storage, optional Buy Me a Coffee support, Play testing, and a proposed $50 acquisition experiment.
+The existing downloads above are for Windows/Linux desktop use.
+
 - One administrator; no multi-user ownership isolation or password-recovery service.
 - In-memory sessions reset on restart; reminder scheduling targets one backend instance.
 - Deleting an expense deletes its payment history. Cancel it to keep the records.
