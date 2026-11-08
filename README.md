@@ -1,9 +1,8 @@
 <p align="center"><img src="docs/assets/banner.svg" alt="BillVault — Your money, in view" width="100%"></p>
 
-<p align="center"><a href="LICENSE">MIT License</a> � Java 25 � Spring Boot 4.1 � React 19 � TypeScript</p>
+<p align="center"><a href="LICENSE">MIT License</a> · Java 25 · Spring Boot 4.1 · React 19 · TypeScript</p>
 
 <p align="center"><strong>A self-hosted home for your bills and subscriptions.</strong><br>Understand recurring costs, record payments, and keep your financial records on your own machine.</p>
-<p align="center"><a href="#self-host-it">Self-host</a> · <a href="#screenshots">Screenshots</a> · <a href="CONTRIBUTING.md">Contribute</a> · <a href="docs/LEARNING_GUIDE.md">Learn the code</a></p>
 
 ## Why BillVault?
 
@@ -11,8 +10,8 @@ Recurring expenses are easy to forget and hard to see together. BillVault brings
 into one dashboard, with a clear distinction between **what you expect to spend** and **what you actually paid**.
 It never connects to a bank or moves money.
 
-Created by [Brennen Griffith](https://github.com/BrennenGriffith) as a personal tool and full-stack learning project,
-with AI assistance. The project is MIT-licensed and open to contributions. It is under active development and targets
+Created by [Brennen Griffith](https://github.com/BrennenGriffith) as a personal tool and bill and subscription management application,
+The project is MIT-licensed and open to contributions. It is under active development and targets
 one administrator; it is not an audited financial service or a multi-user SaaS platform.
 
 ## Screenshots
@@ -178,7 +177,6 @@ Money is calculated in BigDecimal; currencies are reported separately rather tha
 
 | Reference | What it explains |
 | --- | --- |
-| [Learning guide](docs/LEARNING_GUIDE.md) | Code-reading order, interview questions and exercises |
 | [Architecture](docs/ARCHITECTURE.md) | Components and request flow |
 | [API](docs/API.md) | Endpoints, DTOs and status codes |
 | [Database](docs/DATABASE.md) | Schema, migrations and PostgreSQL backups |
@@ -197,4 +195,4 @@ Money is calculated in BigDecimal; currencies are reported separately rather tha
 
 ## License
 
-[MIT](LICENSE) — use, modify, self-host, and contribute. See the license for its terms and warranty disclaimer.
+[MIT](LICENSE) — use, modify, self-host, and contribute. Third-party packages and fonts retain their [own licenses](THIRD_PARTY_NOTICES.md). See the license for its terms and warranty disclaimer.

@@ -29,7 +29,7 @@ No cloud deployment or payment processing is included.
 - [x] Build the React/TypeScript dashboard and all seven main screens, responsive styling and themes.
 - [x] Add in-app reminder rules, hourly scheduling, notifications, CSV export and category/preferences forms.
 - [x] Add Dockerfiles, Compose with persistent PostgreSQL, dev override, health checks and GitLab pipeline.
-- [x] Write setup, architecture, schema, API, decision and interview-learning documentation.
+- [x] Write setup, architecture, schema, API, decision and developer documentation.
 
 ## Verified on November 8, 2026
 - Maven verify: 10 backend tests passed on H2, including live HTTP login/CSRF/logout and database-backed workflows.
@@ -47,7 +47,7 @@ No cloud deployment or payment processing is included.
 - Larger datasets need payment-history pagination and database aggregate queries. Multi-instance reminders need coordination.
 
 
-## Local operations and public-source preparation — November 8, 2026
+## Local operations and public-source preparation â€” November 8, 2026
 - Added a one-process personal profile serving the bundled React production build, with loopback binding and disabled Swagger.
 - Added Windows DPAPI credential setup/start/password-change helpers and versioned personal build artifacts.
 - Added exclusive-handle offline H2 backups, SHA256 checksums, and separate-copy restore checks.
