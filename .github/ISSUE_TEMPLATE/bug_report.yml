@@ -1,0 +1,18 @@
+name: Bug report
+description: Report a reproducible problem using fictional data.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Never include passwords, database files, financial records or unredacted logs. Report vulnerabilities privately using the Security tab.
+  - type: textarea
+    id: reproduce
+    attributes: {label: Steps to reproduce, description: Include the screen or API endpoint and fictional input values.}
+    validations: {required: true}
+  - type: textarea
+    id: expected
+    attributes: {label: Expected and actual behavior}
+    validations: {required: true}
+  - type: input
+    id: environment
+    attributes: {label: Environment, placeholder: 'Windows 11, JDK 25, personal profile / Docker Compose'}

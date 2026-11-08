@@ -1,0 +1,46 @@
+# Architecture
+
+```text
+React components → frontend/src/api.ts → same-origin /api
+  → Spring Security filter chain (session + CSRF)
+  → SubscriptionController / AuthController
+  → SubscriptionService (@Transactional)
+  → Spring Data repositories
+  → PostgreSQL (or explicit local H2 profile)
+```
+
+`Expense` replaces the original in-memory Subscription object as the shared persisted domain model.
+`ExpenseKind` distinguishes bills and subscriptions. The existing controller/service class names are retained
+so the evolution from the original project is easy to follow. `/api/subscriptions` remains an alias, with a
+new paginated response contract and richer request fields; old response consumers must migrate.
+
+## Backend packages
+- `model`: JPA field-access entities and enums. Associations are eager for this small personal dataset.
+- `dto/Api`: immutable request/response records; entities never leave the service as public API responses.
+- `repository`: generated JPA queries plus a pessimistic row lock for recording payments.
+- `service/BillingCalculator`: deterministic recurrence and normalization rules.
+- `service/SubscriptionService`: expense, payment, reporting and preference use cases.
+- `config`: Spring Security, centralized error handling and hourly reminder scheduling.
+
+Search, status/kind/category filters, sorting and pagination run in SQL via JPA Specifications and Pageable.
+Dashboard calculations and calendar recurrence expansion operate over persisted records inside a transaction.
+An independent payment row stores currency/amount at recording time, preserving those values when an expense changes.
+The full payment ledger is loaded for the current personal-scale frontend; history pagination is a future optimization.
+
+## Frontend
+`App.tsx` owns navigation, authentication state and API loading. `ExpenseForm.tsx` owns expense input state.
+`components.tsx` contains shared tables, dialogs, summary cards and charts. `types.ts` describes API contracts.
+`api.ts` obtains a CSRF token, submits a form-encoded login, and makes authenticated JSON requests.
+No financial records or session credentials are persisted to browser localStorage.
+All totals come from API records; empty state is a supported first-run experience.
+
+## Deployment
+The daily `personal` profile serves the built React files from the Java JAR on loopback, disables API docs,
+and reuses the selected local H2 data directory. Windows helpers keep a DPAPI-protected administrator
+credential and publish verified builds to versioned `.local/releases/` folders. Offline backup/restore tools
+operate on separate files and refuse a live H2 copy or overwriting an existing restored database.
+
+Vite proxies requests in development. In Docker, nginx serves the static React build and proxies requests
+to the internal Java service. PostgreSQL runs on an internal network with a persistent volume.
+A PostgreSQL health check gates Java startup; Java health gates nginx startup.
+The supplied Compose stack binds to loopback and does not publish externally.
