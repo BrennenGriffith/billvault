@@ -1,8 +1,25 @@
 <p align="center"><img src="docs/assets/banner.svg" alt="BillVault — Your money, in view" width="100%"></p>
 
-<p align="center"><a href="LICENSE">MIT License</a> · Java 25 · Spring Boot 4.1 · React 19 · TypeScript</p>
+<p align="center"><a href="LICENSE">MIT License</a> · Java 25 · Spring Boot 4.1 · React 19 · TypeScript · JavaFX</p>
 
-<p align="center"><strong>A self-hosted home for your bills and subscriptions.</strong><br>Understand recurring costs, record payments, and keep your financial records on your own machine.</p>
+<p align="center"><strong>Your bills and subscriptions, on your terms.</strong><br>Understand recurring costs, record payments, and keep your financial records on your own machine.</p>
+
+## Choose how you want to use BillVault
+
+**Download the standalone app for your computer, or self-host the web app and use it in your browser.**
+
+| | Standalone desktop app | Self-hosted web app |
+| --- | --- | --- |
+| Best for | Downloading and opening a local application | Running your own browser-based installation |
+| Interface | Native JavaFX window | React web interface |
+| Setup | Windows EXE / ZIP or Linux AppImage; Java included | Docker Compose, or build and run the Java server |
+| Hosting | None | You run the web app on your computer or server |
+| Access | Your operating-system account; no app login | Administrator sign-in in your browser |
+| Storage | Embedded local H2 database | PostgreSQL with Docker, or local H2 |
+| Get started | **[Download the desktop app](#standalone-desktop-app)** | **[Self-host the web app](#self-host-the-web-app)** |
+
+Both editions keep you in control of your records. They use **separate databases** and do not automatically sync.
+The desktop edition is an initial preview with its own interface; see the [desktop guide](desktop/README.md) for its features and limits.
 
 ## Why BillVault?
 
@@ -12,9 +29,11 @@ It never connects to a bank or moves money.
 
 Created by [Brennen Griffith](https://github.com/BrennenGriffith) as a personal tool and bill and subscription management application,
 The project is MIT-licensed and open to contributions. It is under active development and targets
-one administrator; it is not an audited financial service or a multi-user SaaS platform.
+personal use. The web edition has one administrator; this is not an audited financial service or a multi-user SaaS platform.
 
-## Screenshots
+## Web app screenshots
+
+These screenshots show the **self-hosted React web app**. The standalone desktop app uses native JavaFX controls.
 
 **All screenshots use fictional expenses in an isolated demo database. No personal financial records are shown.**
 
@@ -30,7 +49,9 @@ one administrator; it is not an audited financial service or a multi-user SaaS p
 
 </details>
 
-## Features
+## Web app features
+
+The web edition includes the features below. For the standalone edition, see [desktop features](desktop/README.md#what-it-includes).
 
 - **One expense model:** bills and subscriptions, categories, status, notes, website, and payment labels.
 - **Practical recurrence:** weekly, monthly, quarterly, yearly and custom intervals; month-end/leap-year handling.
@@ -42,9 +63,7 @@ one administrator; it is not an audited financial service or a multi-user SaaS p
 - **Built for ownership:** persistent storage, versioned Flyway migrations, light/dark themes, backup tools, and no analytics.
 - **Safer edits:** stale versions return a conflict rather than overwriting another tab's changes.
 
-## Self-host it
-
-### Standalone desktop — download and open
+## Standalone desktop app
 
 Prefer a native application? **[BillVault Desktop downloads](https://github.com/BrennenGriffith/billvault/releases)**
 are published separately from the web edition. The JavaFX client runs locally with an embedded database;
@@ -61,7 +80,25 @@ The desktop database is separate from the web database; there is no automatic sy
 Desktop access uses your operating-system account, with no application password or saved administrator credential.
 Windows packages are unsigned. This is an initial preview release; back up your records before upgrades.
 
-### Option A — Personal use on Windows, without Docker
+**Start using it:**
+
+1. Download the package for your operating system from the table above.
+2. On Windows, run the installer, or extract the entire portable ZIP and open `BillVaultDesktop.exe`.
+3. On Linux, make the AppImage executable with `chmod +x BillVaultDesktop-0.1.0-x86_64.AppImage`, then open it.
+
+Your records are saved in your OS user-data folder. You do not need to clone this repository or start a server.
+
+<a id="self-host-it"></a>
+
+## Self-host the web app
+
+Choose this edition to use BillVault in a browser. You run the React frontend and Spring Boot backend yourself;
+Docker Compose also manages PostgreSQL. The supplied configurations bind to your own computer by default.
+For a container installation, go straight to the **[Docker tutorial](docs/DOCKER.md)**.
+
+The options below all run the **web edition**, including the Windows option without Docker.
+
+### Web option A — Run locally on Windows without Docker
 
 You need **JDK 25** and **Node.js 24** for the initial build. Only Java is needed to run the built application each day.
 Git and PowerShell are used by these instructions.
@@ -85,7 +122,7 @@ the running app does not load Google Fonts. OpenAPI is disabled in personal mode
 **Read the [local operations guide](docs/LOCAL_OPERATIONS.md) for password changes, updates, backups, and restore checks.**
 H2 is the small single-user local option. PostgreSQL is available through Compose and is the intended cloud database.
 
-### Option B — Docker Compose with PostgreSQL
+### Web option B — Docker Compose with PostgreSQL
 
 You need Docker Engine/Desktop with Compose. This is suitable for Windows, Linux, or a home server.
 
@@ -105,7 +142,7 @@ For development against Docker PostgreSQL, use the loopback-only database overri
 See [database setup and backups](docs/DATABASE.md). H2 files cannot be restored directly into PostgreSQL;
 a complete H2-to-PostgreSQL data migration tool is not implemented yet.
 
-### Option C — A built JAR on Linux/macOS
+### Web option C — A built JAR on Linux/macOS
 
 Build the frontend and Java application, then supply an administrator password through your environment:
 
@@ -131,6 +168,9 @@ straightforward, but **there is no Terraform deployment or paid cloud provisioni
 Publishing the source on GitHub does not publish your running vault or database.
 
 ## Back up your records
+
+**Desktop app:** close it and back up its database using the [desktop backup guide](desktop/README.md#back-up-restore-and-update).
+The instructions below are for the **web edition**.
 
 For the Windows/H2 personal installation, stop the application and run:
 
