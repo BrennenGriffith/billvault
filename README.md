@@ -31,6 +31,30 @@ Created by [Brennen Griffith](https://github.com/BrennenGriffith) as a personal 
 The project is MIT-licensed and open to contributions. It is under active development and targets
 personal use. The web edition has one administrator; this is not an audited financial service or a multi-user SaaS platform.
 
+## Standalone app screenshots
+
+The **native JavaFX desktop app**, captured from the Windows standalone package. These examples use a separate
+fictional vault with eight expenses and seven payments; downloads start with an empty vault.
+
+![Standalone BillVault overview with fictional monthly estimates and upcoming bills](docs/assets/desktop-overview.jpg)
+
+| Manage local expenses | Review recorded payments |
+| --- | --- |
+| ![Standalone expense table with fictional bills and subscriptions](docs/assets/desktop-expenses.jpg) | ![Standalone payment history with fictional payments](docs/assets/desktop-payments.jpg) |
+
+### Desktop example: track a subscription
+
+1. Open the desktop app and choose **Expenses → Add expense**.
+2. Enter `Streambox (demo)`, choose **SUBSCRIPTION**, **Entertainment**, `14.99` **USD**, and **MONTHLY**.
+   Set the start date and first due date, then save.
+3. Select it and choose **Record payment**. Confirm the amount and payment date. The payment appears under
+   **Payments**, and the next due date advances by one occurrence.
+4. Open **Reports & export**, select a date and choose **Show totals**. To export the ledger, choose a date range
+   and **Export CSV**. The overview's monthly estimate remains distinct from actual payments.
+
+For a variable bill such as `Electricity (demo)`, keep an estimate on the expense and enter the actual amount
+when recording each payment. See the [desktop examples](desktop/README.md#example-workflows) for more.
+
 ## Web app screenshots
 
 These screenshots show the **self-hosted React web app**. The standalone desktop app uses native JavaFX controls.

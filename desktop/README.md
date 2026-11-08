@@ -16,6 +16,53 @@ Compare the download's SHA256 with its adjacent `.sha256` asset (`Get-FileHash` 
 
 Native overview, paginated/searchable expense tables, bills/subscriptions with all recurrence fields, categories, expense editing/cancellation/deletion, payment history, actual monthly/yearly totals, CSV export, reminders refreshed while using the app, and default currency/reminder preferences. It calls the same transactional Java service layer as the web edition. Currency totals remain separate. Reminders do not run after the app closes; there are no system-tray or email notifications. The desktop appearance is separate from React's theme preferences.
 
+## Screenshots
+
+Captured from the Windows JavaFX package with an isolated, fictional vault. All names, amounts, and payments
+are examples. A new installation starts empty; these records are not shipped with the application.
+
+![Desktop overview showing fictional spending estimates and upcoming expenses](../docs/assets/desktop-overview.jpg)
+
+| Expenses | Payment history |
+| --- | --- |
+| ![Native expense management table](../docs/assets/desktop-expenses.jpg) | ![Native payment history table](../docs/assets/desktop-payments.jpg) |
+
+## Example workflows
+
+### Add a monthly subscription
+
+Open **Expenses → Add expense** and use these example values:
+
+| Field | Example |
+| --- | --- |
+| Name | Streambox (demo) |
+| Kind / category | SUBSCRIPTION / Entertainment |
+| Amount / currency | 14.99 / USD |
+| Frequency | MONTHLY |
+| Start date / next due date | Your first billing date |
+| Status | ACTIVE |
+
+Save it, select its row, and choose **Record payment**. Confirm the paid amount and date. The entry appears in
+**Payments** and its next due date advances once. For example, a monthly expense anchored to November 8 advances
+to December 8 when that November occurrence is recorded. Recording a payment is bookkeeping; BillVault does not charge a card.
+
+### Track a variable bill
+
+Add `Electricity (demo)` as a **BILL**, category **Utilities**, with a monthly estimate of `95.00` USD and
+**Variable amount** checked. If the actual bill is `102.40`, enter that amount in **Record payment**.
+Your forecast keeps its estimate; payment history and actual-payment reports use `102.40`.
+
+### Review and export your history
+
+In **Reports & export**, select a date in the month you want and choose **Show totals** to see that month's
+and year's recorded payments, separated by currency. Choose **From** and **To** dates and **Export CSV** to
+save the matching payment ledger. A CSV export is a report; back up the database separately for full recovery.
+
+### Keep canceled subscriptions in your history
+
+Select the expense, choose **Edit selected**, and change **Status** to **CANCELED**. This preserves its payment
+history. **Delete** permanently removes the expense and its payments, so use cancellation when retaining records matters.
+
 ## Your data and credentials
 
 There is no desktop login or stored administrator credential. Access is protected by your operating-system account. The database and exported files are **not encrypted**. Use a private OS account and disk encryption where appropriate.
