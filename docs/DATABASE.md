@@ -1,8 +1,9 @@
 # Database
 
-Flyway applies `src/main/resources/db/migration/V1__initial_schema.sql` on first startup.
+Flyway applies versioned migrations from `src/main/resources/db/migration/`.
+V1 creates the initial schema; V2 adds durable batch-import receipts.
 Hibernate uses `ddl-auto=validate`; it does not modify the deployed schema.
-Never edit V1 after a database has applied it. Add V2/V3 migrations for future changes.
+Never edit an applied migration. Add the next numbered migration for future changes.
 
 | Model / table | Purpose | Relationships / invariants |
 | --- | --- | --- |
@@ -11,6 +12,7 @@ Never edit V1 after a database has applied it. Add V2/V3 migrations for future c
 | Payment / payments | Actual payment ledger | Many payments per expense; unique (expense_id, occurrence_date) |
 | ReminderRule / reminder_rules | Lead time and enabled flag | One rule per expense, 0–90 days |
 | Notification / notifications | Delivered in-app reminder and read state | Unique (expense_id, occurrence_date) |
+| expense_import_receipts | Retry-safe import results via JDBC | Unique preview UUID; created IDs/skipped count stored atomically with inserted expenses |
 | AppSettings / app_settings | Installation currency view, theme and reminder default | One seeded settings row |
 
 Money uses NUMERIC(12,2)/BigDecimal. Currency codes are validated ISO codes. Dates use DATE/LocalDate;

@@ -2,6 +2,18 @@ name: Bug report
 description: Report a reproducible problem using fictional data.
 labels: [bug]
 body:
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected component
+      options:
+        - Self-hosted web app
+        - JavaFX desktop
+        - MCP / import skill
+        - Packaging / installation
+        - Documentation / accessibility
+        - Other
+    validations: {required: true}
   - type: markdown
     attributes:
       value: Never include passwords, database files, financial records or unredacted logs. Report vulnerabilities privately using the Security tab.

@@ -166,6 +166,18 @@ public final class DesktopApplication extends Application {
     work(
         () -> {
           store = new DesktopStore(directory);
+          if (getParameters().getNamed().containsKey("mcp-port")) {
+            try {
+              store.enableImports(
+                  Integer.parseInt(getParameters().getNamed().get("mcp-port")),
+                  System.getenv("BILLVAULT_MCP_TOKEN"),
+                  () -> Platform.runLater(this::refresh));
+            } catch (Exception e) {
+              store.close();
+              store = null;
+              throw e;
+            }
+          }
           return store;
         },
         opened -> {

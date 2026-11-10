@@ -106,7 +106,7 @@ public class SubscriptionService {
         result.getTotalPages());
   }
 
-  public ExpenseView save(Long id, ExpenseRequest r) {
+  public void validateExpense(ExpenseRequest r) {
     require(
         !r.nextDueDate().isBefore(r.startDate()), "Next due date must be on or after start date");
     require(
@@ -121,6 +121,11 @@ public class SubscriptionService {
     } catch (IllegalArgumentException ex) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unknown currency");
     }
+    require(categories.existsById(r.categoryId()), "Category not found");
+  }
+
+  public ExpenseView save(Long id, ExpenseRequest r) {
+    validateExpense(r);
     Expense e =
         id == null
             ? new Expense()

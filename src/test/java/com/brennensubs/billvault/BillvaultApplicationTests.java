@@ -62,8 +62,9 @@ class BillvaultApplicationTests {
     assertTrue(service.payments().stream().anyMatch(x -> x.id().equals(paid.id())));
     assertTrue(
         service.dashboard().totals().stream()
-            .anyMatch(t ->
-                t.currency().equals("USD") && t.paidThisMonth().compareTo(paid.amount()) >= 0));
+            .anyMatch(
+                t ->
+                    t.currency().equals("USD") && t.paidThisMonth().compareTo(paid.amount()) >= 0));
     assertTrue(service.csv(LocalDate.now(), LocalDate.now()).contains("83.21"));
     assertTrue(
         service.report(LocalDate.now().getYear(), LocalDate.now().getMonthValue()).stream()
@@ -232,6 +233,23 @@ class BillvaultApplicationTests {
     token = json.readTree(send(client, "/auth/csrf", "GET", null, null).body());
     csrf = token.get("token").asText();
     assertEquals(400, send(client, "/expenses", "POST", "{}", csrf).statusCode());
+    assertEquals(403, send(client, "/imports/preview", "POST", "{}", null).statusCode());
+    var importBody =
+        json.writeValueAsString(
+            new com.brennensubs.billvault.dto.ImportApi.Batch(
+                "Fictional HTTP example",
+                List.of(request("HTTP import " + UUID.randomUUID(), ExpenseStatus.ACTIVE))));
+    var previewResponse = send(client, "/imports/preview", "POST", importBody, csrf);
+    assertEquals(200, previewResponse.statusCode());
+    String previewId = json.readTree(previewResponse.body()).get("previewId").asString();
+    var committed =
+        send(client, "/imports/" + previewId + "/commit", "POST", "{\"confirmed\":true}", csrf);
+    assertEquals(200, committed.statusCode());
+    var importResult =
+        json.readValue(committed.body(), com.brennensubs.billvault.dto.ImportApi.Result.class);
+    assertEquals(1, importResult.createdIds().size());
+    service.delete(importResult.createdIds().getFirst());
+
     assertEquals(404, send(client, "/expenses/999999", "GET", null, null).statusCode());
     assertEquals(204, send(client, "/auth/logout", "POST", null, csrf).statusCode());
     assertEquals(401, send(client, "/payments", "GET", null, null).statusCode());

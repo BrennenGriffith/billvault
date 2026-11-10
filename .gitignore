@@ -52,3 +52,11 @@ backups/
 .DS_Store
 
 *.tsbuildinfo
+
+# Private Markdown plans, AI working notes, and implementation checklists.
+*.[mM][dD][pP]
+*.[mM][dD][aA][iI]
+
+# Local MCP dependencies and private client configuration.
+integrations/mcp/node_modules/
+.mcp.json
