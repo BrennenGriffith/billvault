@@ -1,4 +1,10 @@
-# Enable GitHub Actions
+# GitHub Actions checks
+
+The active [contribution workflow](../../.github/workflows/contribution-checks.yml) runs web,
+desktop/shared, and MCP checks on pull requests and pushes to `main`. It uses read-only
+repository permissions and disposable test data, with no deployment or personal secrets.
+
+## Additional PostgreSQL and Compose verification
 
 The reviewed `github-actions.yml` template runs frontend tests/build/audit, backend verification with H2 and
 PostgreSQL, and a disposable Docker Compose smoke test. It never deploys the application or provisions AWS.
