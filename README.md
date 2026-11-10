@@ -3,6 +3,7 @@
 <p align="center"><a href="LICENSE">MIT License</a> · Java 25 · Spring Boot 4.1 · React 19 · TypeScript · JavaFX</p>
 
 <p align="center"><strong>Your bills and subscriptions, on your terms.</strong><br>Understand recurring costs, record payments, and keep your financial records on your own machine.</p>
+<p align="center"><a href="#standalone-desktop-app">Download desktop</a> · <a href="#self-host-the-web-app">Self-host the web app</a> · <a href="#standalone-app-screenshots">Desktop screenshots</a> · <a href="#web-app-screenshots">Web screenshots</a> · <a href="CONTRIBUTING.md">Contribute</a></p>
 
 ## Choose how you want to use BillVault
 
@@ -27,7 +28,7 @@ Recurring expenses are easy to forget and hard to see together. BillVault brings
 into one dashboard, with a clear distinction between **what you expect to spend** and **what you actually paid**.
 It never connects to a bank or moves money.
 
-BillVault is a personal tool and bill and subscription management application by [Brennen Griffith](https://github.com/BrennenGriffith).
+BillVault is a bills and subscription management application by [Brennen Griffith](https://github.com/BrennenGriffith).
 It is MIT-licensed, open to contributions, and under active development for personal use.
 The web edition has one administrator; it is not an audited financial service or a multi-user SaaS platform.
 

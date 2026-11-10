@@ -6,7 +6,7 @@ Keep web and desktop behavior consistent by implementing billing rules in the sh
 Use isolated temporary data directories for desktop testing; never package personal databases in releases.
 
 Thanks for helping make recurring expenses easier to understand. Small, focused contributions are welcome.
-This is a single-user bill and subscription management application. Review the [architecture](docs/ARCHITECTURE.md)
+BillVault is a single-user bill and subscription management application. Review the [architecture](docs/ARCHITECTURE.md)
 and [decisions](docs/DECISIONS.md) before proposing broad redesigns.
 
 ## Development setup

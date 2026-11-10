@@ -121,6 +121,7 @@ Choose a new filename each time to preserve earlier backups. Store copies outsid
 3. Run the startup helper again (or the Bash prompt block) with the original database password. `--build` rebuilds changed images and Compose recreates affected containers.
 4. Verify sign-in, your expenses and payment history. Keep the pre-update backup; migrations can make older versions incompatible with the updated database.
 
+For changes, fork the repository, create a branch, and follow [CONTRIBUTING.md](../CONTRIBUTING.md). See the [architecture guide](ARCHITECTURE.md) for the request flow and application components. The optional Actions template includes a Compose smoke check; it is not active until installed.
 
 ## Troubleshooting
 

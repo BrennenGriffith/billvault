@@ -13,7 +13,7 @@
 	<artifactId>billvault</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>BillVault</name>
-	<description>Self-hosted recurring expense tracking for bill and subscription management.</description>
+	<description>Recurring bill and subscription management with web and native desktop interfaces.</description>
 	<url>https://github.com/BrennenGriffith/billvault</url>
 	<licenses>
 		<license><name>MIT License</name><url>https://opensource.org/license/mit</url></license>
