@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
-version="${1:-0.1.2}"
+version="${1:-0.2.0}"
 [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo 'Version must be x.y.z'; exit 1; }
 [[ "$(uname -m)" == x86_64 ]] || { echo 'This packaging script currently targets Linux x86_64.'; exit 1; }
 : "${APPIMAGETOOL:?Set APPIMAGETOOL to a verified appimagetool executable}"

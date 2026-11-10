@@ -31,12 +31,14 @@ In Eclipse, import the repository as an existing Maven project and enable the `d
 | Component | Responsibility |
 | --- | --- |
 | `DesktopLauncher` | Starts JavaFX through a plain Java main class. |
-| `DesktopApplication` | Native controls, dialogs, navigation, UI state, and background storage jobs. |
+| `DesktopApplication` | Application shell, sidebar navigation, theme toggling, background storage jobs, and workspace coordination. |
+| `OverviewWorkspace`, `ExpensesWorkspace`, `UpcomingWorkspace`, `PaymentsWorkspace`, `ReportsWorkspace`, `RemindersWorkspace`, `SettingsWorkspace` | Modular feature workspaces separated by responsibility. |
+| `DesktopComponents`, `DesktopDialogs`, `DesktopIcons`, `DesktopFormat` | Reusable UI cards, custom table cell factories, modal dialogs, vector SVG icons, and formatting utilities. |
 | `DesktopWindowSizing` | Centers the complete native frame inside the screen's usable bounds, including small/DPI-scaled screens. |
 | `DesktopStore` | Non-web Spring context, H2 configuration, validation, and process lock. |
 | Shared `SubscriptionService` | Expense, payment, report, reminder, and settings transactions. |
 | Shared `BillingCalculator` | Recurrence and normalized-cost calculations. |
-| `desktop.css` | JavaFX styling; React styling does not affect this application. |
+| `desktop.css` | JavaFX looked-up color tokens (Light/Dark) and component styling; React styling does not affect this application. |
 | `packaging/billvault.svg`, `.png`, `.ico` | Canonical vector design and native packaging exports. |
 
 The desktop uses shared domain services directly. It does not start Tomcat, expose HTTP endpoints, load React, or require an application login.
@@ -100,13 +102,13 @@ resize the window, and close cleanly. Verify that expense actions remain reachab
 Windows (redistributable JDK such as Temurin; WiX required for the installer):
 
 ```powershell
-.\scripts\build-desktop.ps1 -Version 0.1.2 -Installer
+.\scripts\build-desktop.ps1 -Version 0.2.0 -Installer
 ```
 
 Linux x86_64 (JDK, GTK libraries, and verified appimagetool):
 
 ```sh
-APPIMAGETOOL=/absolute/path/to/appimagetool ./scripts/build-desktop-linux.sh 0.1.2
+APPIMAGETOOL=/absolute/path/to/appimagetool ./scripts/build-desktop-linux.sh 0.2.0
 ```
 
 Output: `target/desktop-release/`. Windows produces a portable ZIP and optional EXE installer; Linux produces an AppImage.
