@@ -25,6 +25,7 @@ The original web/Docker verification template above remains opt-in. Forks can ac
 
 `desktop-release.yml` builds the JavaFX edition on Ubuntu 22.04 with Temurin 25, runs the shared/desktop
 tests, packages an x86_64 AppImage, and launches that package under Xvfb against a temporary database.
+Additional 1024×600 and 800×600 runs verify that the native frame stays within usable screen bounds.
 Only after that succeeds does it upload the AppImage and checksum to `desktop-v<version>` in Releases.
 It checks out the existing `desktop-v<version>` tag and appends Linux assets to that Windows desktop release,
 so both platform packages come from the same application source. Create the tagged desktop release first.

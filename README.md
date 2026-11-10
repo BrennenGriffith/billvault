@@ -94,10 +94,10 @@ Prefer a native application? **[BillVault Desktop downloads](https://github.com/
 are published separately from the web edition. The JavaFX client runs locally with an embedded database;
 no hosting, Docker, browser, or separately installed Java is needed for packaged downloads.
 
-| Platform | Desktop 0.1.1 preview download |
+| Platform | Desktop 0.1.2 preview download |
 | --- | --- |
-| Windows x64 | [Installer EXE](https://github.com/BrennenGriffith/billvault/releases/download/desktop-v0.1.1/BillVaultDesktop-0.1.1.exe) · [Portable ZIP](https://github.com/BrennenGriffith/billvault/releases/download/desktop-v0.1.1/BillVaultDesktop-0.1.1-windows-x64.zip) |
-| Linux x86_64 | [AppImage](https://github.com/BrennenGriffith/billvault/releases/download/desktop-v0.1.1/BillVaultDesktop-0.1.1-x86_64.AppImage) |
+| Windows x64 | [Installer EXE](https://github.com/BrennenGriffith/billvault/releases/download/desktop-v0.1.2/BillVaultDesktop-0.1.2.exe) · [Portable ZIP](https://github.com/BrennenGriffith/billvault/releases/download/desktop-v0.1.2/BillVaultDesktop-0.1.2-windows-x64.zip) |
+| Linux x86_64 | [AppImage](https://github.com/BrennenGriffith/billvault/releases/download/desktop-v0.1.2/BillVaultDesktop-0.1.2-x86_64.AppImage) |
 
 Both include a Java runtime; SHA256 files accompany the downloads in Releases. See the **[desktop guide](desktop/README.md)**
 for installation, data locations, backup instructions, source builds, and platform limitations.
@@ -109,7 +109,7 @@ Windows packages are unsigned. This is an initial preview release; back up your 
 
 1. Download the package for your operating system from the table above.
 2. On Windows, run the installer, or extract the entire portable ZIP and open `BillVaultDesktop.exe`.
-3. On Linux, make the AppImage executable with `chmod +x BillVaultDesktop-0.1.1-x86_64.AppImage`, then open it.
+3. On Linux, make the AppImage executable with `chmod +x BillVaultDesktop-0.1.2-x86_64.AppImage`, then open it.
 
 Your records are saved in your OS user-data folder. You do not need to clone this repository or start a server.
 
