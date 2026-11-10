@@ -5,12 +5,12 @@
 <p align="center"><strong>Your bills and subscriptions, on your terms.</strong><br>Understand recurring costs, record payments, and keep your financial records on your own machine.</p>
 <p align="center"><a href="#standalone-desktop-app">Download desktop</a> · <a href="#self-host-the-web-app">Self-host the web app</a> · <a href="#standalone-app-screenshots">Desktop screenshots</a> · <a href="#web-app-screenshots">Web screenshots</a> · <a href="#import-from-your-assistant">AI-assisted imports</a> · <a href="CONTRIBUTING.md">Contribute</a></p>
 
-**Already use ChatGPT or Claude to understand your finances?** Bring the bills and subscriptions
-you have reviewed into one place you control. BillVault's new MCP integration and companion skill
-let **Codex and Claude Code** prepare, preview, and import recurring expenses into either the
-standalone desktop app or your self-hosted installation—without a model-provider API key.
-[See setup and current availability](#import-from-your-assistant).
-
+**Do you use ChatGPT or Claude for your expenses? Give those conversations a place to keep the records.**
+Connect BillVault through **MCP and the companion import skill for Codex or Claude Code** to bring
+reviewed bills and subscriptions into one place you control. Your assistant can read saved expense
+summaries for context, prepare an import, and show you what will be saved before you approve it.
+Use the standalone desktop app or your self-hosted installation—no model-provider API key required.
+[Connect your assistant](#import-from-your-assistant).
 
 ## Choose how you want to use BillVault
 
@@ -275,9 +275,10 @@ npm.cmd --prefix frontend run build
 
 Backend tests use an isolated H2 database by default. Set TEST_DB_URL, TEST_DB_USER and TEST_DB_PASSWORD for a
 **dedicated disposable PostgreSQL test database**. Never point tests at your personal financial records.
-An [opt-in GitHub Actions workflow](docs/ci/README.md) is included for frontend checks, Java verification,
-PostgreSQL integration tests and a Compose smoke test. It is supplied as a template and is not active until
-you install it under `.github/workflows/`. No application is deployed by that workflow.
+[Pull-request checks](.github/workflows/contribution-checks.yml) run web tests/builds,
+JavaFX/shared tests, and MCP tests automatically. Additional PostgreSQL integration and Compose
+smoke checks remain available in the [opt-in verification template](docs/ci/README.md).
+No application is deployed by these checks.
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md), open a focused [issue](https://github.com/BrennenGriffith/billvault/issues),
 or submit a pull request. Documentation, accessibility improvements, edge-case tests and query optimizations are welcome.
@@ -323,3 +324,25 @@ The existing downloads above are for Windows/Linux desktop use.
 ## License
 
 [MIT](LICENSE) — use, modify, self-host, and contribute. Third-party packages and fonts retain their [own licenses](THIRD_PARTY_NOTICES.md). See the license for its terms and warranty disclaimer.
+
+## Already using AI to organize expenses? Keep the results in BillVault.
+
+Use ChatGPT or Claude to help understand your expenses, then keep the reviewed recurring bills,
+subscriptions, and due dates in a vault you own. Connect **Codex or Claude Code** through BillVault's
+MCP server and optional import skill: your assistant can read expense summaries for context,
+prepare new recurring expenses, and save an approved preview. Record payments in BillVault to
+keep actual spending alongside your plans.
+
+1. [Download Desktop 0.3.0 and the MCP adapter](https://github.com/BrennenGriffith/billvault/releases/tag/desktop-v0.3.0),
+   or [self-host the web app](#self-host-the-web-app).
+2. [Connect your assistant and install the skill](integrations/mcp/README.md).
+3. Review the proposed expenses, approve the import, and keep managing them in BillVault.
+
+Summaries from ChatGPT or Claude can be supplied to the connected client. The current integration
+supports Codex and Claude Code; it does not automatically share bank connections or conversation
+history between products, provide a direct ChatGPT web connector, or import historical payments.
+Your assistant's own access and usage limits apply; BillVault calls no model-provider API.
+
+Want to help build it? Start with the [contribution guide](CONTRIBUTING.md),
+[report a reproducible bug](https://github.com/BrennenGriffith/billvault/issues/new?template=bug_report.yml),
+or propose a focused improvement. Web, desktop, MCP, accessibility, and documentation contributions are welcome.
