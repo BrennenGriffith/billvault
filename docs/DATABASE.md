@@ -1,12 +1,14 @@
 # Database
 
 Flyway applies versioned migrations from `src/main/resources/db/migration/`.
-V1 creates the initial schema; V2 adds durable batch-import receipts.
+V1 creates the initial schema; V2 adds durable batch-import receipts; V3 adds mobile command receipts and paired-device token hashes.
 Hibernate uses `ddl-auto=validate`; it does not modify the deployed schema.
 Never edit an applied migration. Add the next numbered migration for future changes.
 
 | Model / table | Purpose | Relationships / invariants |
 | --- | --- | --- |
+| mobile_command_receipts | Retry-safe Android commands | Unique UUID, canonical request hash, atomic result receipt |
+| mobile_devices | Paired desktop phones | Token hash, pairing time, revocation flag; no plaintext token |
 | Category / categories | Display name and color | One category has many expenses; unique name |
 | Expense / expenses | Recurring bill/subscription and schedule | Required category; positive decimal amount; status/kind/frequency checks; version and audit timestamps |
 | Payment / payments | Actual payment ledger | Many payments per expense; unique (expense_id, occurrence_date) |

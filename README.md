@@ -310,8 +310,9 @@ Money is calculated in BigDecimal; currencies are reported separately rather tha
 
 ## Current limits and roadmap
 
-**Android is planned, not released.** See the [Android app and launch plan](docs/ANDROID_PLAN.md):
-a free app with local storage, optional development support, and a staged Google Play release.
+**Android has an initial source preview, not a store release.** Open [the Android Studio project](android/README.md)
+for first-run self-hosted, paired-desktop, and phone-only modes, with manual Sync and offline caching.
+See the [Android roadmap](docs/ANDROID_PLAN.md) for remaining feature parity and store work.
 The existing downloads above are for Windows/Linux desktop use.
 
 - One administrator; no multi-user ownership isolation or password-recovery service.

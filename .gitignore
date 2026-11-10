@@ -60,3 +60,8 @@ backups/
 # Local MCP dependencies and private client configuration.
 integrations/mcp/node_modules/
 .mcp.json
+
+# Private TLS identities and Android local tooling.
+*.p12
+android/.gradle/
+android/local.properties

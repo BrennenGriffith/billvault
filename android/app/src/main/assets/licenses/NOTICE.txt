@@ -1,0 +1,6 @@
+BillVault Android is MIT-licensed; see BILLVAULT-MIT.txt.
+AndroidX/Compose and Lifecycle: Copyright The Android Open Source Project, Apache License 2.0.
+Kotlin: Copyright JetBrains s.r.o. and Kotlin Programming Language contributors, Apache License 2.0.
+kotlinx.coroutines: Copyright JetBrains s.r.o., Apache License 2.0.
+OkHttp: Copyright Square, Inc., Apache License 2.0.
+Exact dependency versions: app/build.gradle.kts. No model, bank-linking, advertising, or analytics SDK is included.
