@@ -6,7 +6,7 @@ on:
       version:
         description: Desktop version (x.y.z)
         required: true
-        default: '0.1.1'
+        default: '0.1.2'
 permissions:
   contents: read
 jobs:
@@ -41,6 +41,11 @@ jobs:
         run: |
           timeout 90s xvfb-run -a "target/desktop-release/BillVaultDesktop-$VERSION-x86_64.AppImage" --data-dir="$RUNNER_TEMP/desktop-smoke" --smoke-test=true
           test -s "$RUNNER_TEMP/desktop-smoke/billvault.mv.db"
+      - name: Verify launch bounds on small screens
+        run: |
+          for geometry in 1024x600 800x600; do
+            timeout 90s xvfb-run -a --server-args="-screen 0 ${geometry}x24" "target/desktop-release/BillVaultDesktop-$VERSION-x86_64.AppImage" --data-dir="$RUNNER_TEMP/desktop-$geometry" --smoke-test=true
+          done
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: desktop-linux

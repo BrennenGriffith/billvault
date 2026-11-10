@@ -58,19 +58,26 @@ public final class DesktopApplication extends Application {
     root.setCenter(new Label("Starting local database…"));
     status.setPadding(new Insets(12, 24, 12, 24));
     root.setBottom(status);
-    Scene scene = new Scene(root, 1160, 780);
+    root.setMinSize(0, 0);
+    status.setWrapText(true);
+    status.setMinWidth(0);
+    Scene scene = new Scene(root);
     scene
         .getStylesheets()
         .add(Objects.requireNonNull(getClass().getResource("desktop.css")).toExternalForm());
     stage.setTitle("BillVault Desktop");
+    stage.initStyle(StageStyle.DECORATED);
+    stage.setResizable(true);
     stage
         .getIcons()
         .add(
             new javafx.scene.image.Image(
                 Objects.requireNonNull(getClass().getResourceAsStream("billvault.png"))));
     stage.setScene(scene);
-    stage.setMinWidth(820);
-    stage.setMinHeight(580);
+    var visualBounds = Screen.getPrimary().getVisualBounds();
+    DesktopWindowSizing.fit(stage, visualBounds);
+    // Reapply after the native window exists so decorations cannot push it off-screen.
+    stage.setOnShown(e -> Platform.runLater(() -> DesktopWindowSizing.fit(stage, visualBounds)));
     stage.show();
     work(
         () -> {
@@ -85,6 +92,7 @@ public final class DesktopApplication extends Application {
 
   private void build() {
     TabPane tabs = new TabPane();
+    tabs.setMinSize(0, 0);
     tabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
     dashboard.setPadding(new Insets(24));
     overview.getStyleClass().add("summary");
@@ -106,8 +114,9 @@ public final class DesktopApplication extends Application {
           page = 0;
           refresh();
         });
-    HBox tools =
-        new HBox(
+    FlowPane tools =
+        new FlowPane(
+            8,
             8,
             search,
             filter,
@@ -128,8 +137,9 @@ public final class DesktopApplication extends Application {
             button("Add expense", () -> edit(null)),
             button("Add category", this::category));
     tools.setPadding(new Insets(16));
-    HBox actions =
-        new HBox(
+    FlowPane actions =
+        new FlowPane(
+            8,
             8,
             button("Edit selected", () -> selected(this::edit)),
             button("Record payment", () -> selected(this::pay)),
@@ -368,6 +378,16 @@ public final class DesktopApplication extends Application {
                           .add(new Label(c.category() + "   " + money(c.currency(), c.monthly()))));
           status.setText("Saved locally · " + directory.toAbsolutePath().normalize());
           if ("true".equals(getParameters().getNamed().get("smoke-test"))) {
+            var frame =
+                new javafx.geometry.Rectangle2D(
+                    stage.getX(), stage.getY(), stage.getWidth(), stage.getHeight());
+            if (stage.getStyle() != StageStyle.DECORATED
+                || !stage.isResizable()
+                || !DesktopWindowSizing.contains(Screen.getPrimary().getVisualBounds(), frame)) {
+              throw new IllegalStateException(
+                  "Desktop frame extends beyond the usable screen or lacks native window"
+                      + " controls.");
+            }
             var finish = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(2));
             finish.setOnFinished(
                 event -> {

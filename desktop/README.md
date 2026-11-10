@@ -83,6 +83,8 @@ To update, back up first, close the app, and replace the application folder/inst
 
 ## Build from source
 
+See [ANTIGRAVITY.md](ANTIGRAVITY.md) for the desktop project layout, editing rules, isolated testing, and release workflow.
+
 Install a redistributable JDK 25+ (such as Eclipse Temurin) and use the Maven wrapper. The desktop profile needs no Node.js or React build; it uses native controls and does not bundle the web frontend. It runs shared billing/API tests plus desktop persistence tests, excluding the web frontend serving test. For a full web-edition verification, follow the root README separately.
 
 ```powershell
