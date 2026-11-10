@@ -1,4 +1,4 @@
-param([ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version = '0.1.0', [switch]$Installer)
+param([ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version = '0.1.1', [switch]$Installer)
 $ErrorActionPreference = 'Stop'
 if ([Runtime.InteropServices.RuntimeInformation]::OSArchitecture -ne [Runtime.InteropServices.Architecture]::X64) { throw 'This package script currently targets Windows x64.' }
 Set-Location -LiteralPath (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
@@ -7,7 +7,7 @@ if (-not (Get-Command jpackage -ErrorAction SilentlyContinue)) { throw 'Install 
 if ($LASTEXITCODE -ne 0) { throw 'Desktop verification failed.' }
 $destination = Join-Path (Get-Location) "target/desktop-package-$Version"
 if (Test-Path -LiteralPath $destination) { throw 'Packaging directory already exists; use a clean build directory.' }
-& jpackage --type app-image --name BillVaultDesktop --app-version $Version --vendor 'Brennen Griffith' --input target/desktop-input --main-jar billvault-desktop.jar --main-class com.brennensubs.billvault.desktop.DesktopLauncher --dest $destination --java-options '--enable-native-access=ALL-UNNAMED' --java-options '--sun-misc-unsafe-memory-access=allow'
+& jpackage --type app-image --name BillVaultDesktop --app-version $Version --vendor 'Brennen Griffith' --icon desktop/packaging/billvault.ico --input target/desktop-input --main-jar billvault-desktop.jar --main-class com.brennensubs.billvault.desktop.DesktopLauncher --dest $destination --java-options '--enable-native-access=ALL-UNNAMED' --java-options '--sun-misc-unsafe-memory-access=allow'
 if ($LASTEXITCODE -ne 0) { throw 'jpackage app image failed.' }
 $releaseDirectory = Join-Path (Get-Location) 'target/desktop-release'
 New-Item -ItemType Directory -Path $releaseDirectory -Force | Out-Null

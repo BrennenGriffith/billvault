@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
-version="${1:-0.1.0}"
+version="${1:-0.1.1}"
 [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo 'Version must be x.y.z'; exit 1; }
 [[ "$(uname -m)" == x86_64 ]] || { echo 'This packaging script currently targets Linux x86_64.'; exit 1; }
 : "${APPIMAGETOOL:?Set APPIMAGETOOL to a verified appimagetool executable}"
 ./mvnw -B -Pdesktop clean verify
 mkdir -p target/desktop-release
-jpackage --type app-image --name BillVaultDesktop --app-version "$version" --vendor 'Brennen Griffith' \
+jpackage --type app-image --name BillVaultDesktop --app-version "$version" --vendor 'Brennen Griffith' --icon desktop/packaging/billvault.png \
   --input target/desktop-input --main-jar billvault-desktop.jar \
   --main-class com.brennensubs.billvault.desktop.DesktopLauncher --dest target/desktop-linux \
   --java-options '--enable-native-access=ALL-UNNAMED' --java-options '--sun-misc-unsafe-memory-access=allow'

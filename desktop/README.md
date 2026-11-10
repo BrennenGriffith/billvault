@@ -100,6 +100,9 @@ Build packages on their target OS. Windows jpackage cannot produce a Linux runti
 
 ## Desktop architecture
 
+The desktop icon source is [packaging/billvault.svg](packaging/billvault.svg). Packaging uses a 512-pixel PNG
+for Linux and a multi-resolution ICO for Windows. The JavaFX window loads the same design from its bundled resources.
+
 `DesktopLauncher` → JavaFX `DesktopApplication` → non-web `DesktopStore` → shared `SubscriptionService` → repositories/H2. UI storage work runs on one worker thread; JavaFX changes run on its application thread. Request records are validated before writes, and the shared service retains recurrence, transaction, duplicate-payment, and stale-edit protection. The process lock prevents two desktop windows from writing the same vault.
 
 Source and project artwork are MIT licensed. Java, JavaFX, and dependencies retain their own licenses; package notices accompany releases. This is a first desktop release, not full visual parity with the web app.

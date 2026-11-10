@@ -63,6 +63,11 @@ public final class DesktopApplication extends Application {
         .getStylesheets()
         .add(Objects.requireNonNull(getClass().getResource("desktop.css")).toExternalForm());
     stage.setTitle("BillVault Desktop");
+    stage
+        .getIcons()
+        .add(
+            new javafx.scene.image.Image(
+                Objects.requireNonNull(getClass().getResourceAsStream("billvault.png"))));
     stage.setScene(scene);
     stage.setMinWidth(820);
     stage.setMinHeight(580);
