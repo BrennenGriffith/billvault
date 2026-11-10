@@ -229,10 +229,22 @@ class BillvaultApplicationTests {
             .build();
     assertEquals(204, client.send(login, HttpResponse.BodyHandlers.ofString()).statusCode());
     assertEquals(200, send(client, "/expenses", "GET", null, null).statusCode());
+    assertEquals(200, send(client, "/mobile/snapshot", "GET", null, null).statusCode());
+    assertEquals(403, send(client, "/mobile/commands", "POST", "{}", null).statusCode());
     assertEquals(403, send(client, "/expenses", "POST", "{}", null).statusCode());
     token = json.readTree(send(client, "/auth/csrf", "GET", null, null).body());
     csrf = token.get("token").asText();
     assertEquals(400, send(client, "/expenses", "POST", "{}", csrf).statusCode());
+    var mobileCommand = new com.brennensubs.billvault.dto.MobileApi.Command(
+        UUID.randomUUID(), "CREATE", null,
+        json.valueToTree(request("HTTP mobile " + UUID.randomUUID(), ExpenseStatus.ACTIVE)));
+    String mobileBody = json.writeValueAsString(mobileCommand);
+    var mobileResponse = send(client, "/mobile/commands", "POST", mobileBody, csrf);
+    assertEquals(200, mobileResponse.statusCode());
+    assertEquals(mobileResponse.body(), send(client, "/mobile/commands", "POST", mobileBody, csrf).body());
+    var mobileResult = json.readValue(mobileResponse.body(), com.brennensubs.billvault.dto.MobileApi.Result.class);
+    service.delete(mobileResult.expense().id());
+
     assertEquals(403, send(client, "/imports/preview", "POST", "{}", null).statusCode());
     var importBody =
         json.writeValueAsString(

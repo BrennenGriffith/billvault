@@ -1,5 +1,10 @@
 # Third-party notices
 
+Android uses AndroidX/Compose, Lifecycle, Kotlin/coroutines, and OkHttp under Apache License 2.0.
+Notices and license text are bundled under `android/app/src/main/assets/licenses`.
+Desktop TLS certificate creation uses Bouncy Castle 1.86 under its MIT-style license;
+dependency JARs retain their license files. Versions are pinned in pom.xml and android/app/build.gradle.kts.
+
 BillVault's own source is MIT-licensed. Third-party packages retain their original licenses.
 See frontend/package-lock.json, integrations/mcp/package-lock.json, and pom.xml for exact dependency versions.
 

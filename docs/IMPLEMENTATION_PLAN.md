@@ -5,8 +5,8 @@
 | Edition | Interface | Storage | Status |
 | --- | --- | --- | --- |
 | Web | React/TypeScript and Spring Boot API | PostgreSQL or local H2 | Available |
-| Desktop | Native JavaFX and embedded services | Separate local H2 database | 0.1.0 preview |
-| Android | Planned Kotlin/Compose interface | Planned Room/SQLite database | [Roadmap](ANDROID_PLAN.md) |
+| Desktop | Native JavaFX and embedded services | Separate local H2 database | 0.3.0 preview; source adds Android pairing |
+| Android | Kotlin/Compose interface | App-private SQLite cache/local vault | [Initial source preview](../android/README.md) |
 
 ## Implemented capabilities
 
@@ -37,7 +37,7 @@ container deployment. Public screenshots use isolated fictional records; no prod
 
 - Web installations have one configured administrator; no multi-user ownership isolation.
 - Desktop access relies on the OS account; its database is not encrypted.
-- No automatic synchronization between editions or complete H2-to-PostgreSQL migration utility.
+- Source preview supports manual Android/host sync; no automatic cross-vault sync or complete H2-to-PostgreSQL migration utility.
 - Web sessions are in memory, and reminder scheduling targets one backend instance.
 - Payment history and reporting need further pagination/query optimization for large datasets.
 - No bank connections, real payment processing, email delivery, managed cloud deployment, or Terraform provisioning.

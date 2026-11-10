@@ -70,3 +70,18 @@ Uncommitted expired, missing, or stale previews return 409 and require a new pre
 Confirmation is a caller assertion; configure the assistant host to obtain user approval.
 Both web operations require the existing authenticated session and CSRF header.
 See [MCP setup](../integrations/mcp/README.md) for the separate opt-in desktop bridge.
+
+## Android sync source preview
+
+Web clients use GET `/api/mobile/snapshot` and POST `/api/mobile/commands` with existing session/CSRF
+requirements. Snapshots contain schemaVersion=1, generatedAt, categories, expenses, payments, and settings.
+The initial personal-scale endpoint supports up to 10,000 expenses.
+
+Commands have a UUID commandId, operation CREATE/UPDATE/PAY, nullable expenseId, and a payload matching
+ExpenseRequest or PaymentRequest. Updates carry the original version. Results contain commandId,
+expense, and nullable payment. Retries replay the atomic receipt; changed content with the same ID
+returns 409. Deletion is not exposed through the mobile command contract.
+
+The opt-in desktop TLS listener implements these routes plus POST `/api/mobile/pair`. Pairing uses
+an out-of-band certificate fingerprint and a one-time code, then returns a device bearer token.
+See [Android setup](../android/README.md) for pairing, access revocation, and source-version requirements.
