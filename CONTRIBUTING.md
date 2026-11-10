@@ -100,9 +100,10 @@ Use the pull-request template. Explain the concrete problem, resulting behavior,
 and any API, migration, backup, or compatibility impact. State what you did not verify.
 Link the relevant issue and include screenshots for visible changes.
 
-`main` requires a pull request, verified signatures, and an independent approving review.
+`main` requires a pull request, verified signatures, and passing web, desktop, and MCP checks.
+Independent reviews are welcome but are not mandatory while the project has a sole maintainer.
 Automatic web, desktop, and MCP checks form the contribution baseline. Address review threads
-and rerun checks after revisions; new commits can invalidate an earlier approval. Maintainers
+and rerun checks after revisions; new commits invalidate any earlier approval. Maintainers
 merge through the repository's protected-branch workflow. Do not request force-pushes to `main`
 or disabling protections to get a change accepted.
 
