@@ -73,7 +73,7 @@
     <profiles>
         <profile>
             <id>desktop</id>
-            <properties><spring-boot.repackage.skip>true</spring-boot.repackage.skip><javafx.version>25.0.1</javafx.version><billvault.frontend.directory>desktop/no-web-assets</billvault.frontend.directory></properties>
+            <properties><spring-boot.repackage.skip>true</spring-boot.repackage.skip><javafx.version>27.0.1</javafx.version><billvault.frontend.directory>desktop/no-web-assets</billvault.frontend.directory></properties>
             <dependencies>
                 <dependency><groupId>org.openjfx</groupId><artifactId>javafx-controls</artifactId><version>${javafx.version}</version></dependency>
             </dependencies>
