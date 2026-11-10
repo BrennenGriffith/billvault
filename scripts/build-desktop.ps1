@@ -16,7 +16,7 @@ Copy-Item desktop/README.md -Destination "$destination/BillVaultDesktop/README.t
 Copy-Item desktop/licenses -Destination "$destination/BillVaultDesktop/licenses" -Recurse
 Compress-Archive -Path "$destination/BillVaultDesktop" -DestinationPath "$releaseDirectory/BillVaultDesktop-$Version-windows-x64.zip"
 if ($Installer) {
-    & jpackage --type exe --name BillVaultDesktop --app-version $Version --vendor 'Brennen Griffith' --app-image "$destination/BillVaultDesktop" --dest $releaseDirectory --license-file LICENSE --win-per-user-install --win-menu --win-shortcut --win-upgrade-uuid '2c885dd0-28fb-4d24-9e53-1ac6c3e97520'
+    & jpackage --type exe --name BillVaultDesktop --app-version $Version --vendor 'Brennen Griffith' --icon desktop/packaging/billvault.ico --app-image "$destination/BillVaultDesktop" --dest $releaseDirectory --license-file LICENSE --win-per-user-install --win-menu --win-shortcut --win-upgrade-uuid '2c885dd0-28fb-4d24-9e53-1ac6c3e97520'
     if ($LASTEXITCODE -ne 0) { throw 'Installer packaging failed. Install WiX compatible with your JDK; the portable ZIP is already built.' }
 }
 Get-ChildItem $releaseDirectory -File | Where-Object Extension -in '.zip','.exe' | ForEach-Object {
