@@ -81,7 +81,7 @@
                 <finalName>billvault-desktop</finalName>
                 <plugins>
                     <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><configuration><excludes><exclude>**/PersonalProfileTests.java</exclude></excludes></configuration></plugin>
-                    <plugin><groupId>org.codehaus.mojo</groupId><artifactId>build-helper-maven-plugin</artifactId><version>3.6.1</version>
+                    <plugin><groupId>org.codehaus.mojo</groupId><artifactId>build-helper-maven-plugin</artifactId><version>3.7.0</version>
                         <executions>
                             <execution><id>desktop-source</id><phase>generate-sources</phase><goals><goal>add-source</goal><goal>add-resource</goal></goals><configuration><sources><source>desktop/src/main/java</source></sources><resources><resource><directory>desktop/src/main/resources</directory></resource></resources></configuration></execution>
                             <execution><id>desktop-tests</id><phase>generate-test-sources</phase><goals><goal>add-test-source</goal></goals><configuration><sources><source>desktop/src/test/java</source></sources></configuration></execution>
