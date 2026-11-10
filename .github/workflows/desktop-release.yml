@@ -6,7 +6,7 @@ on:
       version:
         description: Desktop version (x.y.z)
         required: true
-        default: '0.2.0'
+        default: '0.3.0'
 permissions:
   contents: read
 jobs:
@@ -41,6 +41,8 @@ jobs:
         run: |
           timeout 90s xvfb-run -a "target/desktop-release/BillVaultDesktop-$VERSION-x86_64.AppImage" --data-dir="$RUNNER_TEMP/desktop-smoke" --smoke-test=true
           test -s "$RUNNER_TEMP/desktop-smoke/billvault.mv.db"
+      - name: Verify packaged assistant import bridge
+        run: xvfb-run -a python3 scripts/smoke-desktop-import.py "target/desktop-release/BillVaultDesktop-$VERSION-x86_64.AppImage"
       - name: Verify launch bounds on small screens
         run: |
           for geometry in 1024x600 800x600; do

@@ -15,6 +15,8 @@ Application errors use ProblemDetail (`status`, `title`, `detail`). Security-fil
 | POST | /expenses | Create expense; 201 |
 | PUT | /expenses/{id} | Replace editable fields |
 | DELETE | /expenses/{id} | Permanently delete expense and associated history; 204 |
+| POST | /imports/preview | Validate 1–50 expenses and return expiring CREATE/SKIP rows; no expenses saved |
+| POST | /imports/{id}/commit | Commit reviewed preview with `{"confirmed":true}`; replay returns original receipt |
 | GET / POST | /categories | List / create a category |
 | GET | /payments | Payment history, newest payment date first |
 | POST | /expenses/{id}/payments | Record current occurrence and advance date; 201 / 409 duplicate |
@@ -52,3 +54,19 @@ Payment body: `{"occurrenceDate":"2026-11-30","paymentDate":"2026-11-08","amount
 The occurrence must be the current nextDueDate. Actual paymentDate cannot be in the future. Custom frequency requires
 customInterval (1–3650) and customUnit (DAYS/WEEKS/MONTHS/YEARS). Dates and amounts are validated on the server.
 CSV quotes text and guards formula-leading cells. No endpoint initiates real payments.
+
+## Batch expense imports
+
+`POST /imports/preview` accepts `{"source":"reviewed summary","expenses":[ExpenseRequest,...]}`.
+Source is a short label, not a raw statement. All rows must pass bean and semantic validation.
+The result contains `previewId`, `expiresAt`, `source`, and indexed rows with the original expense,
+`action` (`CREATE` or `SKIP`), and `reason`. A same-name/currency/kind match is skipped after
+case/whitespace normalization. Previews last ten minutes in process memory.
+
+`POST /imports/{previewId}/commit` accepts `{"confirmed":true}` and returns
+`{previewId,createdIds,skipped}`. Inserts and their durable receipt commit atomically. Retry
+the same ID after a lost response; an already committed ID replays its receipt after restart.
+Uncommitted expired, missing, or stale previews return 409 and require a new preview.
+Confirmation is a caller assertion; configure the assistant host to obtain user approval.
+Both web operations require the existing authenticated session and CSRF header.
+See [MCP setup](../integrations/mcp/README.md) for the separate opt-in desktop bridge.

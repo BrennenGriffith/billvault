@@ -26,12 +26,17 @@ public final class DesktopStore implements AutoCloseable {
   @EnableAutoConfiguration
   @EntityScan(basePackageClasses = Expense.class)
   @EnableJpaRepositories(basePackageClasses = ExpenseRepository.class)
-  @Import({SubscriptionService.class, BillingCalculator.class})
+  @Import({
+    SubscriptionService.class,
+    BillingCalculator.class,
+    com.brennensubs.billvault.service.ExpenseImportService.class
+  })
   static class LocalConfiguration {}
 
   private final ConfigurableApplicationContext context;
   public final SubscriptionService service;
   private final Validator validator;
+  private DesktopImportBridge bridge;
   private final FileChannel lockChannel;
   private final FileLock lock;
 
@@ -83,6 +88,18 @@ public final class DesktopStore implements AutoCloseable {
     validator = context.getBean(Validator.class);
   }
 
+  public void enableImports(int port, String token, Runnable changed) throws IOException {
+    if (bridge != null) throw new IllegalStateException("Integration already enabled");
+    bridge =
+        new DesktopImportBridge(
+            port,
+            token,
+            this,
+            context.getBean(com.brennensubs.billvault.service.ExpenseImportService.class),
+            context.getBean(tools.jackson.databind.ObjectMapper.class),
+            changed);
+  }
+
   public <T> T validated(T request) {
     var violations = validator.validate(request);
     if (!violations.isEmpty()) throw new ConstraintViolationException(violations);
@@ -115,6 +132,7 @@ public final class DesktopStore implements AutoCloseable {
   @Override
   public void close() {
     try {
+      if (bridge != null) bridge.close();
       context.close();
     } finally {
       try {

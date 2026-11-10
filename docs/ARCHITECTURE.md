@@ -5,7 +5,8 @@
 The optional Maven `desktop` profile adds `desktop/src/main/java` and JavaFX dependencies. `DesktopStore`
 starts a narrowly configured Spring context with `WebApplicationType.NONE`, shared services/repositories,
 Flyway, and a separate H2 file in the OS user-data directory. It does not scan the web security/controllers
-or start an HTTP listener. JavaFX invokes storage work on a single background executor and updates controls
+or start an HTTP listener by default. An optional `--mcp-port` loopback bridge authenticates
+with a session environment token and uses the same open store. JavaFX invokes storage work on a single background executor and updates controls
 on the JavaFX thread. DTO validation precedes mutations; shared transactions, row locks, optimistic versions,
 and duplicate occurrence constraints apply to both editions. A file lock prevents multiple desktop writers.
 There is no cloud synchronization, application login, or desktop database encryption. See [desktop guide](../desktop/README.md).
@@ -56,3 +57,17 @@ Vite proxies requests in development. In Docker, nginx serves the static React b
 to the internal Java service. PostgreSQL runs on an internal network with a persistent volume.
 A PostgreSQL health check gates Java startup; Java health gates nginx startup.
 The supplied Compose stack binds to loopback and does not publish externally.
+
+## Assistant import integration
+
+The optional Node stdio MCP adapter exposes bounded category/expense reads and batch import
+preview/commit tools. Codex and Claude Code can load a companion import skill. No model SDK
+or model-provider API key is used by BillVault. Self-hosted mode uses the existing web session
+and CSRF controls; desktop mode uses the opt-in authenticated loopback bridge.
+
+`ExpenseImportService` validates up to 50 rows, conservatively skips normalized name/currency/kind
+matches, and retains immutable previews for ten minutes. Commits reuse `SubscriptionService`
+and write a durable receipt in the same transaction, so retries of a committed preview ID return
+the original result. New previews are required after expiry, restart, or detected expense changes.
+These checks do not lock all concurrent manual edits; this is not cross-device synchronization.
+See [integration setup and limits](../integrations/mcp/README.md).

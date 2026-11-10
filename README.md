@@ -3,7 +3,14 @@
 <p align="center"><a href="LICENSE">MIT License</a> · Java 25 · Spring Boot 4.1 · React 19 · TypeScript · JavaFX</p>
 
 <p align="center"><strong>Your bills and subscriptions, on your terms.</strong><br>Understand recurring costs, record payments, and keep your financial records on your own machine.</p>
-<p align="center"><a href="#standalone-desktop-app">Download desktop</a> · <a href="#self-host-the-web-app">Self-host the web app</a> · <a href="#standalone-app-screenshots">Desktop screenshots</a> · <a href="#web-app-screenshots">Web screenshots</a> · <a href="CONTRIBUTING.md">Contribute</a></p>
+<p align="center"><a href="#standalone-desktop-app">Download desktop</a> · <a href="#self-host-the-web-app">Self-host the web app</a> · <a href="#standalone-app-screenshots">Desktop screenshots</a> · <a href="#web-app-screenshots">Web screenshots</a> · <a href="#import-from-your-assistant">AI-assisted imports</a> · <a href="CONTRIBUTING.md">Contribute</a></p>
+
+**Already use ChatGPT or Claude to understand your finances?** Bring the bills and subscriptions
+you have reviewed into one place you control. BillVault's new MCP integration and companion skill
+let **Codex and Claude Code** prepare, preview, and import recurring expenses into either the
+standalone desktop app or your self-hosted installation—without a model-provider API key.
+[See setup and current availability](#import-from-your-assistant).
+
 
 ## Choose how you want to use BillVault
 
@@ -66,6 +73,31 @@ eight expenses and seven payments. Downloads start with an empty vault; screensh
 For a variable bill such as `Electricity (demo)`, keep an estimate on the expense and enter the actual amount
 when recording each payment. See the [desktop examples](desktop/README.md#example-workflows) for more.
 
+## Import from your assistant
+
+If you already use AI tools to review statements or organize your finances, BillVault gives those
+reviewed recurring expenses a lasting home: bills, subscriptions, due dates, and payment tracking
+in the local desktop app or your own self-hosted installation.
+
+The **MCP server and companion import skill** connect Codex and Claude Code to either edition:
+
+1. Provide a statement summary, a table, or information from an authorized connection available
+   in your assistant. Confirm any missing currency, recurrence, or due dates.
+2. Ask the assistant to prepare a BillVault import. Review the proposed **CREATE / SKIP** rows.
+3. Approve the exact preview and save the batch. Repeated rows are skipped, and retrying the same
+   committed preview does not create another copy.
+
+BillVault calls no model-provider API and adds no AI subscription requirement. Your assistant's
+own access and usage limits apply. The skill guides the workflow; MCP provides the tools.
+
+**Included in Desktop 0.3.0 and the current self-hosted source.**
+See [MCP setup, client registration, skill installation, and examples](integrations/mcp/README.md).
+
+This first integration is for Codex and Claude Code. Summaries prepared in ChatGPT or Claude
+can be supplied to those clients; bank connections and chat histories do not automatically carry
+between products. A direct ChatGPT web connector is not included. Imports create recurring
+expenses, not historical payments, and never require bank login or account numbers.
+
 ## Web app screenshots
 
 These screenshots show the **self-hosted React web app**. The standalone desktop app uses native JavaFX controls.
@@ -104,10 +136,10 @@ Prefer a native application? **[BillVault Desktop downloads](https://github.com/
 are published separately from the web edition. The JavaFX client runs locally with an embedded database;
 no hosting, Docker, browser, or separately installed Java is needed for packaged downloads.
 
-| Platform | Desktop 0.2.0 preview download |
+| Platform | Desktop 0.3.0 preview download |
 | --- | --- |
-| Windows x64 | [Installer EXE](https://github.com/BrennenGriffith/billvault/releases/download/desktop-v0.2.0/BillVaultDesktop-0.2.0.exe) · [Portable ZIP](https://github.com/BrennenGriffith/billvault/releases/download/desktop-v0.2.0/BillVaultDesktop-0.2.0-windows-x64.zip) |
-| Linux x86_64 | [AppImage](https://github.com/BrennenGriffith/billvault/releases/download/desktop-v0.2.0/BillVaultDesktop-0.2.0-x86_64.AppImage) |
+| Windows x64 | [Installer EXE](https://github.com/BrennenGriffith/billvault/releases/download/desktop-v0.3.0/BillVaultDesktop-0.3.0.exe) · [Portable ZIP](https://github.com/BrennenGriffith/billvault/releases/download/desktop-v0.3.0/BillVaultDesktop-0.3.0-windows-x64.zip) |
+| Linux x86_64 | [AppImage](https://github.com/BrennenGriffith/billvault/releases/download/desktop-v0.3.0/BillVaultDesktop-0.3.0-x86_64.AppImage) |
 
 Both include a Java runtime; SHA256 files accompany the downloads in Releases. See the **[desktop guide](desktop/README.md)**
 for installation, data locations, backup instructions, source builds, and platform limitations.
@@ -119,7 +151,7 @@ Windows packages are unsigned. This is an initial preview release; back up your 
 
 1. Download the package for your operating system from the table above.
 2. On Windows, run the installer, or extract the entire portable ZIP and open `BillVaultDesktop.exe`.
-3. On Linux, make the AppImage executable with `chmod +x BillVaultDesktop-0.2.0-x86_64.AppImage`, then open it.
+3. On Linux, make the AppImage executable with `chmod +x BillVaultDesktop-0.3.0-x86_64.AppImage`, then open it.
 
 Your records are saved in your OS user-data folder. You do not need to clone this repository or start a server.
 

@@ -1,7 +1,7 @@
 # Third-party notices
 
 BillVault's own source is MIT-licensed. Third-party packages retain their original licenses.
-See frontend/package-lock.json and pom.xml for exact dependency versions.
+See frontend/package-lock.json, integrations/mcp/package-lock.json, and pom.xml for exact dependency versions.
 
 The self-hosted DM Sans and Manrope fonts are distributed under SIL Open Font License 1.1.
 Their full notices, along with direct frontend runtime dependency notices, are included in
@@ -20,3 +20,9 @@ graphics-component notices are included under `desktop/licenses/OpenJFX` and cop
 Corresponding OpenJFX source is available at the linked `25.0.1-ga` source tag.
 The desktop edition does not bundle the React frontend or its fonts.
 Packaging tools (WiX/appimagetool) are build tools, not part of BillVault's application source license.
+
+## Optional MCP adapter
+
+The separately installed Node.js adapter uses the MIT-licensed Model Context Protocol SDK
+and Zod. Their license files and dependency notices remain in their npm packages.
+The adapter does not bundle a model-provider SDK or a model runtime.

@@ -1,4 +1,4 @@
-param([ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version = '0.2.0', [switch]$Installer)
+param([ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version = '0.3.0', [switch]$Installer)
 $ErrorActionPreference = 'Stop'
 if ([Runtime.InteropServices.RuntimeInformation]::OSArchitecture -ne [Runtime.InteropServices.Architecture]::X64) { throw 'This package script currently targets Windows x64.' }
 Set-Location -LiteralPath (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
