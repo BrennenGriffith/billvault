@@ -28,6 +28,6 @@ personal project, without a guaranteed response SLA or security audit.
 - The provided HTTP local configuration is not an Internet deployment. Use TLS, Secure cookies, secrets handling,
   backup automation and abuse protection before public hosting.
 - A single administrator can access every record. Multi-user isolation is not implemented.
-- Sessions are in memory; restarting invalidates them. Changing your saved password takes effect after restart.
+- Sessions are in memory; restarting invalidates them. Changing the administrator password supplied at startup takes effect after restart.
 
 No bank connections or real payment processing are implemented. Please do not submit bank credentials.

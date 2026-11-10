@@ -48,3 +48,7 @@ Use the issue templates for bugs and features. Report security vulnerabilities p
 By contributing, you agree to license your contribution under this repository's MIT license. Be respectful,
 assume good intent, and keep technical feedback specific and constructive.
 
+## Contribution quality
+
+Review submitted code, verify its behavior, and document relevant design decisions and test results.
+Contributors are responsible for correctness, dependency licensing, and keeping private data out of changes.

@@ -27,9 +27,9 @@ Recurring expenses are easy to forget and hard to see together. BillVault brings
 into one dashboard, with a clear distinction between **what you expect to spend** and **what you actually paid**.
 It never connects to a bank or moves money.
 
-Created by [Brennen Griffith](https://github.com/BrennenGriffith) as a personal tool and bill and subscription management application,
-The project is MIT-licensed and open to contributions. It is under active development and targets
-personal use. The web edition has one administrator; this is not an audited financial service or a multi-user SaaS platform.
+BillVault is a personal tool and bill and subscription management application by [Brennen Griffith](https://github.com/BrennenGriffith).
+It is MIT-licensed, open to contributions, and under active development for personal use.
+The web edition has one administrator; it is not an audited financial service or a multi-user SaaS platform.
 
 ## Standalone app screenshots
 
@@ -267,7 +267,7 @@ Money is calculated in BigDecimal; currencies are reported separately rather tha
 ## Current limits and roadmap
 
 **Android is planned, not released.** See the [Android app and launch plan](docs/ANDROID_PLAN.md):
-a free app with local storage, optional Buy Me a Coffee support, Play testing, and a proposed $50 acquisition experiment.
+a free app with local storage, optional development support, and a staged Google Play release.
 The existing downloads above are for Windows/Linux desktop use.
 
 - One administrator; no multi-user ownership isolation or password-recovery service.

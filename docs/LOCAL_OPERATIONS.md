@@ -1,7 +1,7 @@
 # Daily personal use on Windows
 
 This mode serves the built React frontend and REST API from one Java process. No Vite dev server, Docker,
-AWS account, or cloud subscription is required. It is intended for one person on this PC, on loopback only.
+AWS account, or cloud subscription is required. It is intended for one person on a local computer, on loopback only.
 
 ## First-time setup
 
