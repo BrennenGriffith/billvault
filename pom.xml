@@ -75,6 +75,7 @@
             <id>desktop</id>
             <properties><spring-boot.repackage.skip>true</spring-boot.repackage.skip><javafx.version>25.0.1</javafx.version><billvault.frontend.directory>desktop/no-web-assets</billvault.frontend.directory></properties>
             <dependencies>
+                <dependency><groupId>org.bouncycastle</groupId><artifactId>bcpkix-jdk18on</artifactId><version>1.86</version></dependency>
                 <dependency><groupId>org.openjfx</groupId><artifactId>javafx-controls</artifactId><version>${javafx.version}</version></dependency>
             </dependencies>
             <build>

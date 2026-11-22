@@ -19,7 +19,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-/** An embedded, non-web Spring context: no HTTP listener and no administrator credentials. */
+/** Embedded services; network bridges start only when explicitly enabled. */
 public final class DesktopStore implements AutoCloseable {
   @Configuration(proxyBeanMethods = false)
   @Profile("desktop")
@@ -29,7 +29,8 @@ public final class DesktopStore implements AutoCloseable {
   @Import({
     SubscriptionService.class,
     BillingCalculator.class,
-    com.brennensubs.billvault.service.ExpenseImportService.class
+    com.brennensubs.billvault.service.ExpenseImportService.class,
+    com.brennensubs.billvault.service.MobileSyncService.class
   })
   static class LocalConfiguration {}
 
@@ -37,11 +38,14 @@ public final class DesktopStore implements AutoCloseable {
   public final SubscriptionService service;
   private final Validator validator;
   private DesktopImportBridge bridge;
+  private DesktopMobileBridge mobile;
+  private final Path dataDirectory;
   private final FileChannel lockChannel;
   private final FileLock lock;
 
   public DesktopStore(Path directory) throws IOException {
     Path data = directory.toAbsolutePath().normalize();
+    dataDirectory = data;
     Files.createDirectories(data);
     if (data.toString().contains(";"))
       throw new IOException("Data directory cannot contain a semicolon");
@@ -100,6 +104,33 @@ public final class DesktopStore implements AutoCloseable {
             changed);
   }
 
+  public synchronized DesktopMobileBridge.Pairing enableMobile(int port, Runnable changed)
+      throws Exception {
+    if (mobile == null)
+      mobile =
+          new DesktopMobileBridge(
+              dataDirectory,
+              port,
+              context.getBean(com.brennensubs.billvault.service.MobileSyncService.class),
+              context.getBean(org.springframework.jdbc.core.JdbcTemplate.class),
+              context.getBean(tools.jackson.databind.ObjectMapper.class),
+              changed);
+    return mobile.newCode();
+  }
+
+  public synchronized void disableMobile() {
+    if (mobile != null) {
+      mobile.close();
+      mobile = null;
+    }
+  }
+
+  public synchronized void revokeMobile() {
+    context
+        .getBean(org.springframework.jdbc.core.JdbcTemplate.class)
+        .update("UPDATE mobile_devices SET revoked=TRUE");
+  }
+
   public <T> T validated(T request) {
     var violations = validator.validate(request);
     if (!violations.isEmpty()) throw new ConstraintViolationException(violations);
@@ -133,6 +164,7 @@ public final class DesktopStore implements AutoCloseable {
   public void close() {
     try {
       if (bridge != null) bridge.close();
+      disableMobile();
       context.close();
     } finally {
       try {

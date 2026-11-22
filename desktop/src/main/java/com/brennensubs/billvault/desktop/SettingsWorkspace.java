@@ -42,16 +42,19 @@ final class SettingsWorkspace {
   private final Consumer<SettingsRequest> onSaveSettings;
   private final Consumer<CategoryRequest> onAddCategory;
   private final Consumer<String> onStatusUpdate;
+  private final Consumer<String> onMobileAction;
 
   SettingsWorkspace(
       Path directory,
       Consumer<SettingsRequest> onSaveSettings,
       Consumer<CategoryRequest> onAddCategory,
-      Consumer<String> onStatusUpdate) {
+      Consumer<String> onStatusUpdate,
+      Consumer<String> onMobileAction) {
     this.directory = directory;
     this.onSaveSettings = onSaveSettings;
     this.onAddCategory = onAddCategory;
     this.onStatusUpdate = onStatusUpdate;
+    this.onMobileAction = onMobileAction;
 
     content.getStyleClass().add("workspace-body");
     content.setMinWidth(0);
@@ -89,14 +92,12 @@ final class SettingsWorkspace {
     if (settings.currency() != null && !settings.currency().isBlank()) {
       currencies.add(settings.currency());
     }
-    ComboBox<String> currencyBox =
-        new ComboBox<>(FXCollections.observableArrayList(currencies));
+    ComboBox<String> currencyBox = new ComboBox<>(FXCollections.observableArrayList(currencies));
     currencyBox.setEditable(true);
     currencyBox.setValue(settings.currency());
     currencyBox.setMaxWidth(Double.MAX_VALUE);
 
-    ComboBox<String> themeBox =
-        new ComboBox<>(FXCollections.observableArrayList("light", "dark"));
+    ComboBox<String> themeBox = new ComboBox<>(FXCollections.observableArrayList("light", "dark"));
     themeBox.setValue("dark".equalsIgnoreCase(settings.theme()) ? "dark" : "light");
     themeBox.setMaxWidth(Double.MAX_VALUE);
     themeBox.setConverter(
@@ -149,9 +150,7 @@ final class SettingsWorkspace {
                       : currencyBox.getValue();
               onSaveSettings.accept(
                   new SettingsRequest(
-                      rawCurrency == null
-                          ? "USD"
-                          : rawCurrency.trim().toUpperCase(Locale.ROOT),
+                      rawCurrency == null ? "USD" : rawCurrency.trim().toUpperCase(Locale.ROOT),
                       themeBox.getValue(),
                       reminderSpinner.getValue()));
             });
@@ -221,8 +220,7 @@ final class SettingsWorkspace {
         DesktopComponents.panel(
             "Expense categories",
             "Color-coded categories for grouping subscriptions and household bills",
-            DesktopComponents.tag(
-                (categories == null ? 0 : categories.size()) + " categories"),
+            DesktopComponents.tag((categories == null ? 0 : categories.size()) + " categories"),
             catBody);
 
     grid.add(prefsPanel, 0, 0);
@@ -283,5 +281,27 @@ final class SettingsWorkspace {
             DesktopComponents.tag("Local H2"),
             storageBody);
     content.getChildren().add(storagePanel);
+    Label mobileHint =
+        new Label(
+            "Android sync is off at startup. Enable encrypted local-network access, pair your"
+                + " phone, then use its Sync button. Keep this desktop app running. No hosted relay"
+                + " or paid server is used.");
+    mobileHint.setWrapText(true);
+    Button pair =
+        DesktopComponents.secondaryButton(
+            "Enable / show pairing", DesktopIcons.PLUS, () -> onMobileAction.accept("pair"));
+    Button stop =
+        DesktopComponents.secondaryButton(
+            "Stop Android sync", DesktopIcons.CHECK, () -> onMobileAction.accept("stop"));
+    Button revoke =
+        DesktopComponents.secondaryButton(
+            "Forget paired devices", DesktopIcons.SHIELD, () -> onMobileAction.accept("revoke"));
+    VBox mobileBody = new VBox(12, mobileHint, pair, stop, revoke);
+    mobileBody.setPadding(new Insets(18, 20, 20, 20));
+    content
+        .getChildren()
+        .add(
+            DesktopComponents.panel(
+                "Android sync", "Pair a phone on your local network", null, mobileBody));
   }
 }

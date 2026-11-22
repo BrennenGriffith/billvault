@@ -286,7 +286,8 @@ public final class DesktopApplication extends Application {
                 work(
                     () -> store.service.category(store.validated(catReq)),
                     saved -> refresh()),
-            msg -> statusLabel.setText(msg));
+            msg -> statusLabel.setText(msg),
+            this::mobileAction);
 
     Node sidebar = buildSidebar();
     Node mainArea = buildMainArea();
@@ -735,6 +736,86 @@ public final class DesktopApplication extends Application {
                 });
           }
         });
+  }
+
+  private void mobileAction(String action) {
+    if (action.equals("pair")) {
+      work(
+          () -> store.enableMobile(8766, () -> Platform.runLater(this::refresh)),
+          pairing -> {
+            var dialog = new javafx.scene.control.Dialog<Void>();
+            dialog.initOwner(stage);
+            dialog.setTitle("Pair BillVault Android");
+            dialog.setResizable(true);
+            var payload = new java.util.LinkedHashMap<String, Object>();
+            payload.put(
+                "url",
+                pairing.addresses().isEmpty()
+                    ? "https://YOUR-LAN-IP:" + pairing.port()
+                    : pairing.addresses().getFirst());
+            payload.put("fingerprint", pairing.fingerprint());
+            payload.put("code", pairing.code());
+            String details =
+                tools.jackson.databind.json.JsonMapper.builder()
+                    .build()
+                    .writeValueAsString(payload);
+            var text =
+                new javafx.scene.control.TextArea(
+                    "Use the same local network. Choose your desktop's Wi-Fi/LAN address.\n"
+                        + String.join("\n", pairing.addresses())
+                        + "\n\nSHA256 fingerprint:\n"
+                        + pairing.fingerprint()
+                        + "\n\nOne-time pairing code: "
+                        + pairing.code()
+                        + "\nExpires: "
+                        + pairing.expiresAt()
+                        + "\n\n"
+                        + "Allow the app through the firewall on private networks only. Do not"
+                        + " forward this port on your router.");
+            text.setEditable(false);
+            text.setWrapText(true);
+            text.setPrefColumnCount(54);
+            text.setPrefRowCount(15);
+            var copy = new javafx.scene.control.Button("Copy pairing details");
+            copy.setOnAction(
+                e -> {
+                  var clipboard = new javafx.scene.input.ClipboardContent();
+                  clipboard.putString(details);
+                  javafx.scene.input.Clipboard.getSystemClipboard().setContent(clipboard);
+                });
+            dialog.getDialogPane().setContent(new VBox(12, text, copy));
+            dialog.getDialogPane().getButtonTypes().add(javafx.scene.control.ButtonType.CLOSE);
+            dialog.show();
+            statusLabel.setText(
+                "Android sync enabled on port "
+                    + pairing.port()
+                    + "; paired devices may sync while this app runs.");
+          });
+    } else if (action.equals("stop")) {
+      work(
+          () -> {
+            store.disableMobile();
+            return true;
+          },
+          ok -> statusLabel.setText("Android sync stopped; local records preserved."));
+    } else if (action.equals("revoke")) {
+      var confirm =
+          new javafx.scene.control.Alert(
+              javafx.scene.control.Alert.AlertType.CONFIRMATION,
+              "All paired phones must pair again. Their local caches are not erased.",
+              javafx.scene.control.ButtonType.OK,
+              javafx.scene.control.ButtonType.CANCEL);
+      confirm.initOwner(stage);
+      confirm.setTitle("Forget paired devices?");
+      if (confirm.showAndWait().orElse(javafx.scene.control.ButtonType.CANCEL)
+          == javafx.scene.control.ButtonType.OK)
+        work(
+            () -> {
+              store.revokeMobile();
+              return true;
+            },
+            ok -> statusLabel.setText("Paired-device access revoked."));
+    }
   }
 
   @Override

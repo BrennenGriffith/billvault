@@ -26,6 +26,13 @@ Seven dedicated workspaces with sidebar navigation, light/dark themes, KPI cards
 recurring expenses into the running local vault. The bridge is opt-in and loopback-only;
 no model-provider API key is needed. Available in Desktop 0.3.0 and later; install the separate MCP adapter described in the guide.
 
+## Android companion (source preview)
+
+The updated source adds **Storage & preferences → Android sync** for opt-in TLS pairing and manual
+phone sync. It is separate from MCP and requires no paid server. Desktop 0.3.0 downloads predate it.
+See [Android setup, pairing, and sync behavior](../android/README.md). Close the desktop and back up
+its data folder before building/upgrading to the new V3 schema.
+
 ## Screenshots
 
 The actual JavaFX interface rendered with an isolated, fictional vault. All names, amounts, and payments
